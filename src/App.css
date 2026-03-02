@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1b1b1b;
+  --color-secondary: #0b0b0b;
+  --color-tertiary: #dde3f7;
+  --color-highlighter: #dde3f7;
+  --color-action-500: oklch(0.623 0.214 259.815);
+}
+
+@tailwind utilities;
