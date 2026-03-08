@@ -40,7 +40,7 @@ function FAQ() {
         {faqData.map((item, index) => (
           <div
             key={index}
-            className="border-b border-gray-400 py-4 last:border-none"
+            className="border-b border-secondary py-4 last:border-none"
           >
             <div
               className="flex justify-between items-center cursor-pointer"

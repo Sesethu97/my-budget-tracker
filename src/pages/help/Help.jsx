@@ -15,7 +15,7 @@ function Help() {
   };
 
   return (
-    <main className="ml-48 p-6 text-center">
+    <main className="ml-48 p-6 text-center text-white">
       <h1 className="text-2xl font-bold">Frequently Asked Questions</h1>
       <p className="mt-4">
         {" "}
@@ -28,10 +28,10 @@ function Help() {
 
       <h2 className="text-lg font-bold">Have any other questions?</h2>
       <p className="text-base py-2 ">Don't hesitate to send us an email</p>
-      <span className="text-sm py-6">{email}</span>
+      <span className="text-sm py-2 px-2 border-2 rounded-md">{email}</span>
       <button
         onClick={handleCopeEmail}
-        className="text-sm bg-secondary hover:bg-gray-800 py-2 px-2 rounded ml-2 text-tertiary "
+        className="text-sm bg-deep-magenta hover:bg-magenta py-2 px-2 rounded ml-2 text-tertiary "
       >
         {copyEmail ? "Copied" : "Copy"}
       </button>
