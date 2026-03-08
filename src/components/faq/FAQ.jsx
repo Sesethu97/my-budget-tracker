@@ -36,24 +36,24 @@ function FAQ() {
 
   return (
     <main className="py-10">
-      <div className="max-w-150 mx-auto bg-white rounded-lg p-6 shadow-md">
+      <div className="max-w-200 mx-auto bg-primary rounded-lg p-6 shadow-md">
         {faqData.map((item, index) => (
           <div
             key={index}
-            className="border-b border-gray-300 py-4 last:border-none"
+            className="border-b border-gray-400 py-4 last:border-none"
           >
             <div
               className="flex justify-between items-center cursor-pointer"
               onClick={() => toggle(index)}
             >
-              <h4 className="font-medium">{item.question}</h4>
+              <h4 className="font-medium text-white">{item.question}</h4>
               <span className="text-xl font-bold">
                 {openFAQ === index ? "-" : "+"}
               </span>
             </div>
 
             {openFAQ === index && (
-              <div className="mt-3 text-gray-600">
+              <div className="mt-3 text-stone-400">
                 <p>{item.answer}</p>
               </div>
             )}

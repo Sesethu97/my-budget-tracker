@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import Popup from "../popup/Popup";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
+import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";
+import AssessmentRoundedIcon from "@mui/icons-material/AssessmentRounded";
+import AreaChartRoundedIcon from "@mui/icons-material/AreaChartRounded";
 
 function Sidenav() {
   const [openPopUp, setOpenPopUp] = useState(false);
@@ -40,21 +45,26 @@ function Sidenav() {
         className="fixed top-0 left-0 z-40 w-48 h-full transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div className="bg-primary h-full px-3 py-3 overflow-y-auto text-tertiary">
-          <span className="text-tertiary flex items-center justify-center py-2">
+        <div className="bg-primary h-full px-3 py-3 overflow-y-auto text-white">
+          <span className="text-white flex items-center justify-center py-2">
             {profilePic ? (
               <img
-                s
                 onClick={handleOpenPopUp}
-                rc={profilePic}
+                src={profilePic}
                 alt="profile-pic"
+                className="w-24 h-24 rounded-full cursor-pointer"
               />
             ) : (
-              <div
-                onClick={handleOpenPopUp}
-                className="w-32 h-32 rounded-full bg-pink-400 flex items-center justify-center text-4xl font-semibold"
-              >
-                {initial}
+              <div className="flex-col">
+                <div
+                  onClick={handleOpenPopUp}
+                  className="w-24 h-24 rounded-full bg-gradient-to-r from-deep-magenta to-royal-purple  flex items-center justify-center text-4xl font-semibold"
+                >
+                  {initial}
+                </div>
+                <p className="text-white capitalize size-12 mt-4 flex text-center ml-2">
+                  {displayName}
+                </p>
               </div>
             )}
           </span>
@@ -62,7 +72,7 @@ function Sidenav() {
             <h2 className="text-xl font-semibold mb-6">Edit profile</h2>
 
             <div className="flex justify-center mb-6 relative">
-              <span className="w-32 h-32 rounded-full bg-pink-400 flex items-center justify-center text-4xl font-semibold">
+              <span className="w-32 h-32 rounded-full bg-gradient-to-r from-deep-magenta to-royal-purple flex items-center justify-center text-4xl font-semibold">
                 {initial}
               </span>
 
@@ -82,7 +92,7 @@ function Sidenav() {
             </div>
 
             <div className="mb-6">
-              <label className="text-sm text-gray-400">Username</label>
+              <label className="text-sm text-white">Username</label>
               <input
                 type="text"
                 value={userName}
@@ -112,12 +122,13 @@ function Sidenav() {
             </div>
           </Popup>
 
-          <ul className="space-y-4 font-bold text-l text-tertiary pt-4 pl-6">
+          <ul className="space-y-4 font-bold text-l text-tertiary pt-2 ">
             <li>
               <a
                 href="#"
-                className="flex items-center px-2 py-1.5 text-body  hover:text-red-200 group"
+                className="flex gap-2  px-2 py-1.5 text-body  hover:bg-[#212121] rounded-sm hover:text-pink-600 group"
               >
+                <HomeRoundedIcon />
                 Dashboard
               </a>
             </li>
@@ -126,8 +137,9 @@ function Sidenav() {
               {" "}
               <a
                 href="#"
-                className="flex items-center px-2 py-1.5 text-body  hover:text-red-200 group"
+                className="flex gap-2 px-2 py-1.5 text-body  hover:bg-[#212121] rounded-sm hover:text-pink-600 group"
               >
+                <AutoStoriesRoundedIcon />
                 Bugdet
               </a>
             </li>
@@ -135,8 +147,9 @@ function Sidenav() {
               {" "}
               <a
                 href="#"
-                className="flex items-center px-2 py-1.5 text-body  hover:text-red-200 group"
+                className="flex gap-2  px-2 py-1.5 text-body  hover:bg-[#212121] rounded-sm hover:text-pink-600 group"
               >
+                <AreaChartRoundedIcon />
                 Goals
               </a>
             </li>
@@ -144,8 +157,9 @@ function Sidenav() {
               {" "}
               <a
                 href="#"
-                className="flex items-center px-2 py-1.5 text-body rounded-base hover:text-red-200 group"
+                className="flex gap-2 px-2 py-1.5 text-body  hover:bg-[#212121] rounded-sm hover:text-pink-600 group"
               >
+                <AssessmentRoundedIcon />
                 Reports
               </a>
             </li>
@@ -153,8 +167,9 @@ function Sidenav() {
               {" "}
               <a
                 href="/help"
-                className="flex items-center px-2 py-1.5 text-body rounded-base hover:text-red-200 group"
+                className="flex gap-2  px-2 py-1.5 text-body  hover:bg-[#212121] rounded-sm hover:text-pink-600 group"
               >
+                <HelpRoundedIcon />
                 Help
               </a>
             </li>
@@ -162,7 +177,7 @@ function Sidenav() {
           <div className="space-y-4 font-bold text-l text-tertiary pt-4 pl-6 fixed bottom-0 left-0 right-0">
             <a
               href="/"
-              className="flex items-center px-2 py-1.5 text-body rounded-base hover:text-red-200 group"
+              className="flex items-center px-2 py-1.5 text-body rounded-base hover:text-pink-600 group"
             >
               Sign Out
             </a>
