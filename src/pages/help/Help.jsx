@@ -28,10 +28,10 @@ function Help() {
 
       <h2 className="text-lg font-bold">Have any other questions?</h2>
       <p className="text-base py-2 ">Don't hesitate to send us an email</p>
-      <span className="text-sm py-2 px-2 border-2 rounded-md">{email}</span>
+      <span className="text-sm py-2 px-2 border-2 rounded-lg">{email}</span>
       <button
         onClick={handleCopeEmail}
-        className="text-sm bg-deep-magenta hover:bg-magenta py-2 px-2 rounded ml-2 text-tertiary "
+        className="text-sm bg-deep-magenta hover:bg-magenta py-2 px-2 rounded-lg ml-2 text-tertiary "
       >
         {copyEmail ? "Copied" : "Copy"}
       </button>

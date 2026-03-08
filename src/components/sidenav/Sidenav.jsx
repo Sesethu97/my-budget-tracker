@@ -7,36 +7,9 @@ import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";
 import AssessmentRoundedIcon from "@mui/icons-material/AssessmentRounded";
 import AreaChartRoundedIcon from "@mui/icons-material/AreaChartRounded";
 
-function Sidenav() {
-  const [openPopUp, setOpenPopUp] = useState(false);
-  const [userName, setUserName] = useState("test case");
-  const [displayName, setDisplay] = useState("tastcase");
-  const [profilePic, setProfilePic] = useState(null);
+function Sidenav({ openPopup, displayName, userName, profilePic }) {
   const initial = userName ? userName.substring(0, 2).toUpperCase() : "";
 
-  const handleOpenPopUp = () => {
-    setOpenPopUp(true);
-  };
-
-  const handleClosePopUp = () => {
-    setOpenPopUp(false);
-  };
-
-  const handleProfilePicChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setProfilePic(reader.result);
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleSave = () => {
-    console.log("Profile Pic:", profilePic);
-    console.log("Username:", userName);
-    console.log("Display Name:", displayName);
-    handleClosePopUp();
-  };
   return (
     <div>
       sidenav
@@ -49,7 +22,7 @@ function Sidenav() {
           <span className="text-white flex items-center justify-center py-2">
             {profilePic ? (
               <img
-                onClick={handleOpenPopUp}
+                onClick={openPopup}
                 src={profilePic}
                 alt="profile-pic"
                 className="w-24 h-24 rounded-full cursor-pointer"
@@ -57,7 +30,7 @@ function Sidenav() {
             ) : (
               <div className="flex-col">
                 <div
-                  onClick={handleOpenPopUp}
+                  onClick={openPopup}
                   className="w-24 h-24 rounded-full bg-gradient-to-r from-deep-magenta to-royal-purple  flex items-center justify-center text-4xl font-semibold"
                 >
                   {initial}
@@ -68,65 +41,12 @@ function Sidenav() {
               </div>
             )}
           </span>
-          <Popup isOpen={openPopUp} isClosed={handleClosePopUp}>
-            <h2 className="text-xl font-semibold mb-6">Edit profile</h2>
-
-            <div className="flex justify-center mb-6 relative">
-              <span className="w-32 h-32 rounded-full bg-gradient-to-r from-deep-magenta to-royal-purple flex items-center justify-center text-4xl font-semibold">
-                {initial}
-              </span>
-
-              <button className="absolute bottom-2 right-[160px] bg-[#2c2c2c] p-2 rounded-full border border-gray-600">
-                📷
-              </button>
-            </div>
-
-            <div className="mb-4">
-              <label className="text-sm text-gray-400">Display name</label>
-              <input
-                type="text"
-                value={displayName}
-                onChange={(e) => setDisplay(e.target.value)}
-                className="w-full mt-1 p-3 rounded-lg bg-[#2a2a2a] border border-gray-700 focus:outline-none focus:border-gray-500"
-              />
-            </div>
-
-            <div className="mb-6">
-              <label className="text-sm text-white">Username</label>
-              <input
-                type="text"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                className="w-full mt-1 p-3 rounded-lg bg-[#2a2a2a] border border-gray-700 focus:outline-none focus:border-gray-500"
-              />
-              <p className="text-xs text-gray-500 mt-3 text-center">
-                Your profile helps people recognize you. Your name and username
-                are also used in the Sora app.
-              </p>
-            </div>
-
-            <div className="flex justify-end gap-4">
-              <button
-                onClick={handleClosePopUp}
-                className="px-5 py-2 rounded-full bg-[#2c2c2c] hover:bg-[#3a3a3a]"
-              >
-                Cancel
-              </button>
-
-              <button
-                onClick={handleSave}
-                className="px-5 py-2 rounded-full bg-white text-black hover:bg-gray-200"
-              >
-                Save
-              </button>
-            </div>
-          </Popup>
 
           <ul className="space-y-4 font-bold text-l text-tertiary pt-2 ">
             <li>
               <a
                 href="#"
-                className="flex gap-2  px-2 py-1.5 text-body  hover:bg-[#212121] rounded-sm hover:text-pink-600 group"
+                className="flex gap-2  px-2 py-1.5 text-body  hover:bg-secondary rounded-sm hover:text-pink-600 group"
               >
                 <HomeRoundedIcon />
                 Dashboard
@@ -137,7 +57,7 @@ function Sidenav() {
               {" "}
               <a
                 href="#"
-                className="flex gap-2 px-2 py-1.5 text-body  hover:bg-[#212121] rounded-sm hover:text-pink-600 group"
+                className="flex gap-2 px-2 py-1.5 text-body  hover:bg-secondary rounded-sm hover:text-pink-600 group"
               >
                 <AutoStoriesRoundedIcon />
                 Bugdet
@@ -147,7 +67,7 @@ function Sidenav() {
               {" "}
               <a
                 href="#"
-                className="flex gap-2  px-2 py-1.5 text-body  hover:bg-[#212121] rounded-sm hover:text-pink-600 group"
+                className="flex gap-2  px-2 py-1.5 text-body  hover:bg-secondary rounded-sm hover:text-pink-600 group"
               >
                 <AreaChartRoundedIcon />
                 Goals
@@ -157,7 +77,7 @@ function Sidenav() {
               {" "}
               <a
                 href="#"
-                className="flex gap-2 px-2 py-1.5 text-body  hover:bg-[#212121] rounded-sm hover:text-pink-600 group"
+                className="flex gap-2 px-2 py-1.5 text-body  hover:bg-secondary rounded-sm hover:text-pink-600 group"
               >
                 <AssessmentRoundedIcon />
                 Reports
@@ -167,7 +87,7 @@ function Sidenav() {
               {" "}
               <a
                 href="/help"
-                className="flex gap-2  px-2 py-1.5 text-body  hover:bg-[#212121] rounded-sm hover:text-pink-600 group"
+                className="flex gap-2  px-2 py-1.5 text-body  hover:bg-secondary rounded-sm hover:text-pink-600 group"
               >
                 <HelpRoundedIcon />
                 Help
