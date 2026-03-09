@@ -47,7 +47,7 @@ function App() {
       )}
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/home" element={<Dashboard />} />
         <Route path="/help" element={<Help />} />
       </Routes>
 

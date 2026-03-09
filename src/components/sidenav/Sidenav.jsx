@@ -45,11 +45,11 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
           <ul className="space-y-4 font-bold text-l text-tertiary pt-2 ">
             <li>
               <a
-                href="#"
+                href="/home"
                 className="flex gap-2  px-2 py-1.5 text-body  hover:bg-secondary rounded-sm hover:text-pink-600 group"
               >
                 <HomeRoundedIcon />
-                Dashboard
+                Home
               </a>
             </li>
 
@@ -60,7 +60,7 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
                 className="flex gap-2 px-2 py-1.5 text-body  hover:bg-secondary rounded-sm hover:text-pink-600 group"
               >
                 <AutoStoriesRoundedIcon />
-                Bugdet
+                Budget
               </a>
             </li>
             <li>
