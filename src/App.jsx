@@ -6,6 +6,8 @@ import "./App.css";
 import Help from "./pages/help/Help";
 import { useState } from "react";
 import Popup from "./components/popup/Popup";
+import Budget from "./pages/budget/Budget";
+import Expenses from "./pages/expenses/Expenses";
 
 function App() {
   const location = useLocation();
@@ -49,6 +51,8 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Dashboard />} />
         <Route path="/help" element={<Help />} />
+        <Route path="/budget" element={<Budget />} />
+        <Route path="/expenses" element={<Expenses />} />
       </Routes>
 
       <Popup isOpen={openPopUp} isClosed={() => setOpenPopUp(false)}>

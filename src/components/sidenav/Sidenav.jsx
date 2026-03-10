@@ -6,6 +6,7 @@ import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";
 import AssessmentRoundedIcon from "@mui/icons-material/AssessmentRounded";
 import AreaChartRoundedIcon from "@mui/icons-material/AreaChartRounded";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 function Sidenav({ openPopup, displayName, userName, profilePic }) {
   const initial = userName ? userName.substring(0, 2).toUpperCase() : "";
@@ -56,11 +57,21 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
             <li>
               {" "}
               <a
-                href="#"
+                href="/budget"
                 className="flex gap-2 px-2 py-1.5 text-body  hover:bg-secondary rounded-sm hover:text-pink-600 group"
               >
                 <AutoStoriesRoundedIcon />
                 Budget
+              </a>
+            </li>
+            <li>
+              {" "}
+              <a
+                href="/expenses"
+                className="flex gap-2  px-2 py-1.5 text-body  hover:bg-secondary rounded-sm hover:text-pink-600 group"
+              >
+                <AccountBalanceWalletIcon />
+                Expenses
               </a>
             </li>
             <li>
