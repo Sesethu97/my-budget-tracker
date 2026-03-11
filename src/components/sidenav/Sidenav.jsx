@@ -64,16 +64,7 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
                 Budget
               </a>
             </li>
-            <li>
-              {" "}
-              <a
-                href="/expenses"
-                className="flex gap-2  px-2 py-1.5 text-body  hover:bg-secondary rounded-sm hover:text-pink-600 group"
-              >
-                <AccountBalanceWalletIcon />
-                Expenses
-              </a>
-            </li>
+
             <li>
               {" "}
               <a

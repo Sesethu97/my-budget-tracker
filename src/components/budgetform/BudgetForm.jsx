@@ -1,62 +1,174 @@
-import { useState } from "react";
-import BudgetForm from "../../components/budgetform/BudgetForm";
+import { useState, useEffect } from "react";
 
-function Budget() {
-  const [openBudget, setOpenBudget] = useState(false);
-  const [budgets, setBudgets] = useState([]);
+function BudgetForm({ closeModal, setBudgets, editingBudget }) {
+  const [budgetName, setBudgetName] = useState("");
+  const [income, setIncome] = useState("");
+  const [month, setMonth] = useState("");
+  const [expenses, setExpenses] = useState([{ category: "", amount: "" }]);
 
-  const addBudget = (newBudget) => {
-    setBudgets([...budgets, newBudget]);
-    setOpenBudget(false);
+  useEffect(() => {
+    if (editingBudget) {
+      setBudgetName(editingBudget.name);
+      setIncome(editingBudget.income);
+      setMonth(editingBudget.month);
+      setExpenses(editingBudget.expenses);
+    } else {
+      setBudgetName("");
+      setIncome("");
+      setMonth("");
+      setExpenses([{ category: "", amount: "" }]);
+    }
+  }, [editingBudget]);
+
+  const preset = [
+    "Rent",
+    "Utilities",
+    "Groceries",
+    "Transport",
+    "Entertainment",
+    "Savings",
+    "Insurance",
+    "Debt Payments",
+    "Subscriptions",
+    "Healthcare",
+    "Education",
+    "Miscellaneous",
+    "Other",
+  ];
+
+  const addExpense = () => {
+    setExpenses([...expenses, { category: "", amount: "" }]);
+  };
+
+  const handleChange = (index, field, value) => {
+    const updated = [...expenses];
+    updated[index][field] = value;
+    setExpenses(updated);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const savings =
+      income - expenses.reduce((sum, e) => sum + Number(e.amount || 0), 0);
+    const newBudget = {
+      id: editingBudget?.id || Date.now(),
+      name: budgetName,
+      month,
+      income,
+      savings,
+      expenses,
+    };
+    const existingBudgets = JSON.parse(localStorage.getItem("budgets")) || [];
+    let updatedBudgets;
+
+    if (editingBudget) {
+      updatedBudgets = existingBudgets.map((b) =>
+        b.id === editingBudget.id ? newBudget : b,
+      );
+    } else {
+      updatedBudgets = [...existingBudgets, newBudget];
+    }
+
+    localStorage.setItem("budgets", JSON.stringify(updatedBudgets));
+    setBudgets(updatedBudgets);
+    closeModal();
   };
 
   return (
-    <>
-      <div className="flex justify-between items-center px-10 mt-10">
-        <h1 className="text-xl font-bold">Budgets</h1>
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-lg w-125 max-h-[90vh] overflow-y-auto rounded-md p-6 shadow-2xl bg-primary text-white relative"
+    >
+      <button
+        type="button"
+        onClick={closeModal}
+        className="absolute top-2 right-3 text-white text-lg"
+      >
+        ✕
+      </button>
+
+      <h2 className="text-center font-bold mb-6">Monthly Budget</h2>
+
+      <div className="space-y-4">
+        <div>
+          <label className="block mb-2 text-sm font-medium">Budget Name</label>
+          <input
+            type="text"
+            className="w-full border bg-secondary rounded p-2"
+            value={budgetName}
+            onChange={(e) => setBudgetName(e.target.value)}
+          />
+        </div>
+
+        <div className="flex gap-3">
+          <div>
+            <label className="block mb-2 text-sm font-medium">Income</label>
+            <input
+              type="number"
+              className="w-full bg-secondary border rounded p-2"
+              value={income}
+              onChange={(e) => setIncome(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2 text-sm font-medium">Month</label>
+            <input
+              type="month"
+              className="w-full bg-secondary border rounded p-2"
+              value={month}
+              onChange={(e) => setMonth(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-4 mt-6">
+        <h2 className="text-lg font-semibold">Expense Categories</h2>
+
+        {expenses.map((expense, index) => (
+          <div key={index} className="flex gap-3">
+            <select
+              value={expense.category}
+              onChange={(e) => handleChange(index, "category", e.target.value)}
+              className="flex-1 bg-secondary border rounded p-2"
+            >
+              <option value="">Select Category</option>
+              {preset.map((cat, i) => (
+                <option key={i}>{cat}</option>
+              ))}
+            </select>
+
+            <input
+              type="number"
+              placeholder="Amount"
+              value={expense.amount}
+              onChange={(e) => handleChange(index, "amount", e.target.value)}
+              className="w-32 bg-secondary border rounded p-2"
+            />
+          </div>
+        ))}
 
         <button
-          onClick={() => setOpenBudget(true)}
-          className="bg-magenta text-white px-4 py-2 rounded"
+          type="button"
+          onClick={addExpense}
+          className="text-magenta text-sm"
         >
-          Create Budget
+          + Add Category
         </button>
       </div>
 
-      <div className="ml-80 mt-10 w-225 overflow-x-auto bg-neutral-primary-soft shadow rounded-md border">
-        <table className="w-full text-sm text-left">
-          <thead className="bg-neutral-secondary-soft border-b">
-            <tr>
-              <th className="px-6 py-3">Budget Name</th>
-              <th className="px-6 py-3">Month</th>
-              <th className="px-6 py-3">Income</th>
-              <th className="px-6 py-3">Savings</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {budgets.map((budget, index) => (
-              <tr key={index} className="border-b">
-                <td className="px-6 py-4">{budget.name}</td>
-                <td className="px-6 py-4">{budget.month}</td>
-                <td className="px-6 py-4">R {budget.income}</td>
-                <td className="px-6 py-4">R {budget.savings}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="mt-10">
+        <button
+          type="submit"
+          className="bg-magenta text-white px-4 py-2 rounded w-full"
+        >
+          Save Budget
+        </button>
       </div>
-
-      {openBudget && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
-          <BudgetForm
-            closeModal={() => setOpenBudget(false)}
-            onSave={addBudget}
-          />
-        </div>
-      )}
-    </>
+    </form>
   );
 }
 
-export default Budget;
+export default BudgetForm;

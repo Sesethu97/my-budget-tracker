@@ -6,7 +6,7 @@ function Landing() {
   const navigate = useNavigate();
 
   const handleStart = () => {
-    navigate("/dashboard");
+    navigate("/home");
   };
 
   return (

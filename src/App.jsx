@@ -52,7 +52,6 @@ function App() {
         <Route path="/home" element={<Dashboard />} />
         <Route path="/help" element={<Help />} />
         <Route path="/budget" element={<Budget />} />
-        <Route path="/expenses" element={<Expenses />} />
       </Routes>
 
       <Popup isOpen={openPopUp} isClosed={() => setOpenPopUp(false)}>
