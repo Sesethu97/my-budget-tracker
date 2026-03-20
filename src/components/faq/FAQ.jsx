@@ -36,11 +36,11 @@ function FAQ() {
 
   return (
     <main className="py-10">
-      <div className="max-w-200 mx-auto bg-primary rounded-lg p-6 shadow-md">
+      <div className="max-w-200 mx-auto bg-highlighter rounded-lg p-6 shadow-md">
         {faqData.map((item, index) => (
           <div
             key={index}
-            className="border-b border-secondary py-4 last:border-none"
+            className="border-b border-border py-4 last:border-none"
           >
             <div
               className="flex justify-between items-center cursor-pointer"
@@ -53,7 +53,7 @@ function FAQ() {
             </div>
 
             {openFAQ === index && (
-              <div className="mt-3 text-stone-400">
+              <div className="mt-3 text-textPrimary">
                 <p>{item.answer}</p>
               </div>
             )}

@@ -7,7 +7,7 @@ import Help from "./pages/help/Help";
 import { useState } from "react";
 import Popup from "./components/popup/Popup";
 import Budget from "./pages/budget/Budget";
-import Expenses from "./pages/expenses/Expenses";
+import Goals from "./pages/goals/Goals";
 
 function App() {
   const location = useLocation();
@@ -39,19 +39,23 @@ function App() {
 
   return (
     <>
-      {showSidenav && (
-        <Sidenav
-          openPopup={() => setOpenPopUp(true)}
-          displayName={displayName}
-          userName={userName}
-          profilePic={profilePic}
-        />
-      )}
+      {showSidenav && <Sidenav />}
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/home" element={<Dashboard />} />
+        <Route
+          path="/home"
+          element={
+            <Dashboard
+              openPopup={() => setOpenPopUp(true)}
+              displayName={displayName}
+              userName={userName}
+              profilePic={profilePic}
+            />
+          }
+        />
         <Route path="/help" element={<Help />} />
         <Route path="/budget" element={<Budget />} />
+        <Route path="/goals" element={<Goals />} />
       </Routes>
 
       <Popup isOpen={openPopUp} isClosed={() => setOpenPopUp(false)}>
