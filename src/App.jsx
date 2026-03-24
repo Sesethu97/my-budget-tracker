@@ -38,31 +38,34 @@ function App() {
   };
 
   return (
-    <>
-      {showSidenav && <Sidenav />}
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route
-          path="/home"
-          element={
-            <Dashboard
-              openPopup={() => setOpenPopUp(true)}
-              displayName={displayName}
-              userName={userName}
-              profilePic={profilePic}
-            />
-          }
+    <div className="flex min-h-screen">
+      {showSidenav && (
+        <Sidenav
+          openPopup={() => setOpenPopUp(true)}
+          displayName={displayName}
+          userName={userName}
+          profilePic={profilePic}
         />
-        <Route path="/help" element={<Help />} />
-        <Route path="/budget" element={<Budget />} />
-        <Route path="/goals" element={<Goals />} />
-      </Routes>
-
+      )}
+      <main className="flex-1 overflow-y-auto p-6">
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route
+            path="/home"
+            element={<Dashboard displayName={displayName} />}
+          />
+          <Route path="/help" element={<Help />} />
+          <Route path="/budget" element={<Budget />} />
+          <Route path="/goals" element={<Goals />} />
+        </Routes>
+      </main>
       <Popup isOpen={openPopUp} isClosed={() => setOpenPopUp(false)}>
-        <h2 className="text-xl font-semibold mb-6">Edit profile</h2>
+        <h2 className="text-xl text-mainHeading font-semibold mb-6">
+          Edit profile
+        </h2>
 
         <div className="flex justify-center mb-6 relative">
-          <div className="w-32 h-32 rounded-full overflow-hidden bg-gradient-to-r from-deep-magenta to-royal-purple flex items-center justify-center text-4xl font-semibold">
+          <div className="w-32 h-32 rounded-full overflow-hidden bg-gradient-to-r from-highlighter to-logo flex items-center justify-center text-4xl font-semibold">
             {profilePic ? (
               <img
                 src={profilePic}
@@ -83,49 +86,49 @@ function App() {
           />
           <button
             onClick={() => document.getElementById("profilePicInput").click()}
-            className="absolute bottom-2 left-[210px] p-2 bg-secondary rounded-full hover:bg-gray-600"
+            className="absolute bottom-2 left-[210px] p-2 bg-gray rounded-full hover:bg-gray-600"
           >
             📷
           </button>
         </div>
 
         <div className="mb-4">
-          <label className="text-sm text-gray-400">Display name</label>
+          <label className="text-sm text-mainHeading">Display name</label>
           <input
             type="text"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            className="w-full mt-1 p-3 rounded-lg bg-[#2a2a2a] border border-gray-700 focus:outline-none focus:border-gray-500"
+            className="w-full mt-1 p-3 rounded-lg bg-gray/50 border border-gray focus:outline-none focus:border-gray-500"
           />
         </div>
 
         <div className="mb-6">
-          <label className="text-sm text-white">Username</label>
+          <label className="text-sm text-mainHeading">Username</label>
           <input
             type="text"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            className="w-full mt-1 p-3 rounded-lg bg-[#2a2a2a] border border-gray-700 focus:outline-none focus:border-gray-500"
+            className="w-full mt-1 p-3 rounded-lg bg-gray/50 border border-gray focus:outline-none focus:border-gray-500"
           />
         </div>
 
         <div className="flex justify-end gap-4">
           <button
             onClick={() => setOpenPopUp(false)}
-            className="px-5 py-2 rounded-full bg-secondary hover:bg-[#3a3a3a]"
+            className="px-5 py-2 rounded-full bg-highlighter hover:bg-textSecondary"
           >
             Cancel
           </button>
 
           <button
             onClick={handleSave}
-            className="px-5 py-2 rounded-full bg-white text-black hover:bg-magenta"
+            className="px-5 py-2 rounded-full bg-white text-black "
           >
             Save
           </button>
         </div>
       </Popup>
-    </>
+    </div>
   );
 }
 

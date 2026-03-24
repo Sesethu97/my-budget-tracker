@@ -1,29 +1,30 @@
 import { useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
-import Popup from "../popup/Popup";
 import SavingsIcon from "@mui/icons-material/Savings";
+import { NavLink } from "react-router-dom";
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";
 import AssessmentRoundedIcon from "@mui/icons-material/AssessmentRounded";
 import AreaChartRoundedIcon from "@mui/icons-material/AreaChartRounded";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
-function Sidenav() {
+function Sidenav({ openPopup, displayName, userName, profilePic }) {
+  const initial = userName ? userName.substring(0, 2).toUpperCase() : "";
+
+  console.log("initial dashboard", initial);
+  console.log("initial displayName", displayName);
+  console.log("initial userName", userName);
+  console.log("initial profilepic", profilePic);
+
   return (
     <div>
-      sidenav
-      <aside
-        id="sidebar"
-        className="fixed top-0 left-0 z-40 w-48 h-full transition-transform -translate-x-full sm:translate-x-0"
-        aria-label="Sidebar"
-      >
+      <aside className="w-48 h-screen sticky top-0 bg-sidebar">
         <div className="bg-primary h-full px-3 py-3 overflow-y-auto">
           <div className="flex items-center gap-2 py-6">
             <SavingsIcon sx={{ fontSize: 40, fill: "url(#gradient)" }} />
 
-            <p className="text-xl font-semibold text-textPrimary">BudgetPal</p>
+            <p className="text-xl font-semibold text-mainHeading">BudgetPal</p>
 
             <svg width="0" height="0">
               <defs>
@@ -43,73 +44,202 @@ function Sidenav() {
 
           <ul className="space-y-4  text-l  pt-4 ">
             <li>
-              <a
-                href="/home"
-                className="group flex items-center gap-2  py-1.5 rounded-sm"
+              <NavLink
+                to="/home"
+                className="group flex items-center gap-2 py-1.5 rounded-sm"
               >
-                <span className="w-1 h-5 rounded-full bg-transparent group-hover:bg-highlighter transition-all"></span>
+                {({ isActive }) => (
+                  <>
+                    <span
+                      className={`w-1 h-5 rounded-full transition-all ${
+                        isActive ? "bg-highlighter" : "bg-transparent"
+                      }`}
+                    ></span>
 
-                <HomeRoundedIcon className="text-textPrimary group-hover:text-highlighter transition-colors" />
+                    <HomeRoundedIcon
+                      className={`transition-colors ${
+                        isActive
+                          ? "text-highlighter"
+                          : "text-menu group-hover:text-highlighter"
+                      }`}
+                    />
 
-                <span className="text-body text-textPrimary">Dashboard</span>
-              </a>
+                    <span
+                      className={`text-body transition-colors ${
+                        isActive
+                          ? "text-highlighter"
+                          : "text-menu group-hover:text-highlighter"
+                      }`}
+                    >
+                      Dashboard
+                    </span>
+                  </>
+                )}
+              </NavLink>
             </li>
             <li>
-              <a
-                href="/budget"
-                className="group flex items-center gap-2  py-1.5 rounded-sm"
+              <NavLink
+                to="/budget"
+                className="group flex items-center gap-2 py-1.5 rounded-sm"
               >
-                <span className="w-1 h-5 rounded-full bg-transparent group-hover:bg-highlighter transition-all"></span>
+                {({ isActive }) => (
+                  <>
+                    <span
+                      className={`w-1 h-5 rounded-full transition-all ${
+                        isActive ? "bg-highlighter" : "bg-transparent"
+                      }`}
+                    ></span>
 
-                <AutoStoriesRoundedIcon className="text-textPrimary group-hover:text-highlighter transition-colors" />
+                    <AutoStoriesRoundedIcon
+                      className={`transition-colors ${
+                        isActive
+                          ? "text-highlighter"
+                          : "text-menu group-hover:text-highlighter"
+                      }`}
+                    />
 
-                <span className="text-body text-textPrimary">Budget</span>
-              </a>
+                    <span
+                      className={`text-body transition-colors ${
+                        isActive
+                          ? "text-highlighter"
+                          : "text-menu group-hover:text-highlighter"
+                      }`}
+                    >
+                      Budget
+                    </span>
+                  </>
+                )}
+              </NavLink>
             </li>
             <li>
-              <a
-                href="/home"
-                className="group flex items-center gap-2  py-1.5 rounded-sm"
+              <NavLink
+                to="/goals"
+                className="group flex items-center gap-2 py-1.5 rounded-sm"
               >
-                <span className="w-1 h-5 rounded-full bg-transparent group-hover:bg-highlighter transition-all"></span>
+                {({ isActive }) => (
+                  <>
+                    <span
+                      className={`w-1 h-5 rounded-full transition-all ${
+                        isActive ? "bg-highlighter" : "bg-transparent"
+                      }`}
+                    ></span>
 
-                <AreaChartRoundedIcon className="text-textPrimary group-hover:text-highlighter transition-colors" />
+                    <AreaChartRoundedIcon
+                      className={`transition-colors ${
+                        isActive
+                          ? "text-highlighter"
+                          : "text-menu group-hover:text-highlighter"
+                      }`}
+                    />
 
-                <span className="text-text-textPrimary ">Goals</span>
-              </a>
+                    <span
+                      className={`text-body transition-colors ${
+                        isActive
+                          ? "text-highlighter"
+                          : "text-menu group-hover:text-highlighter"
+                      }`}
+                    >
+                      Goals
+                    </span>
+                  </>
+                )}
+              </NavLink>
             </li>
             <li>
-              <a
-                href="/home"
-                className="group flex items-center gap-2  py-1.5 rounded-sm"
+              <NavLink
+                to="/"
+                className="group flex items-center gap-2 py-1.5 rounded-sm"
               >
-                <span className="w-1 h-5 rounded-full bg-transparent group-hover:bg-highlighter transition-all"></span>
+                {({ isActive }) => (
+                  <>
+                    <span
+                      className={`w-1 h-5 rounded-full transition-all ${
+                        isActive ? "bg-highlighter" : "bg-transparent"
+                      }`}
+                    ></span>
 
-                <AssessmentRoundedIcon className="text-textPrimary group-hover:text-highlighter transition-colors" />
+                    <AssessmentRoundedIcon
+                      className={`transition-colors ${
+                        isActive
+                          ? "text-highlighter"
+                          : "text-menu group-hover:text-highlighter"
+                      }`}
+                    />
 
-                <span className="text-body text-textPrimary">Reports</span>
-              </a>
+                    <span
+                      className={`text-body transition-colors ${
+                        isActive
+                          ? "text-highlighter"
+                          : "text-menu group-hover:text-highlighter"
+                      }`}
+                    >
+                      Reports
+                    </span>
+                  </>
+                )}
+              </NavLink>
             </li>
             <li>
-              <a
-                href="/help"
-                className="group flex items-center gap-2  py-1.5 rounded-sm"
+              <NavLink
+                to="/help"
+                className="group flex items-center gap-2 py-1.5 rounded-sm"
               >
-                <span className="w-1 h-5 rounded-full bg-transparent group-hover:bg-highlighter transition-all"></span>
+                {({ isActive }) => (
+                  <>
+                    <span
+                      className={`w-1 h-5 rounded-full transition-all ${
+                        isActive ? "bg-highlighter" : "bg-transparent"
+                      }`}
+                    ></span>
 
-                <HelpRoundedIcon className="text-textPrimary group-hover:text-highlighter transition-colors" />
+                    <HelpRoundedIcon
+                      className={`transition-colors ${
+                        isActive
+                          ? "text-highlighter"
+                          : "text-menu group-hover:text-highlighter"
+                      }`}
+                    />
 
-                <span className="text-body text-textPrimary">Help</span>
-              </a>
+                    <span
+                      className={`text-body transition-colors ${
+                        isActive
+                          ? "text-highlighter"
+                          : "text-menu group-hover:text-highlighter"
+                      }`}
+                    >
+                      Help
+                    </span>
+                  </>
+                )}
+              </NavLink>
             </li>
           </ul>
           <div className="space-y-4 font-bold text-l text-tertiary pt-4 pl-6 fixed bottom-0 left-0 right-0">
-            <a
+            <div className="ml-4">
+              <button
+                onClick={openPopup}
+                className="flex items-center gap-3 cursor-pointer group"
+              >
+                {profilePic ? (
+                  <img
+                    src={profilePic}
+                    alt="profile-pic"
+                    className="w-20 h-20 rounded-full object-cover border-2 border-transparent group-hover:border-magenta transition"
+                  />
+                ) : (
+                  <AccountCircleRoundedIcon
+                    sx={{ fontSize: 60 }}
+                    className="text-textPrimary group-hover:text-highlighter transition"
+                  />
+                )}
+              </button>
+            </div>
+            <NavLink
               href="/"
-              className="flex items-center text-textPrimary px-2 py-1.5 text-body rounded-base hover:text-highlighter group"
+              className="flex items-center text-menu px-2 py-1.5 text-body rounded-base hover:text-highlighter group"
             >
               Sign Out
-            </a>
+            </NavLink>
           </div>
         </div>
       </aside>
