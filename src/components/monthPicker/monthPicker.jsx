@@ -10,7 +10,7 @@ function MonthPicker({ selectedMonth, setSelectedMonth }) {
         dateFormat="yyyy-MM"
         showMonthYearPicker
         customInput={
-          <button className="px-4 py-2  text-menu border border-gray rounded-full shadow-md hover:scale-105 transition">
+          <button className="px-4 py-2  bg-sidebarColor text-white border border-subText rounded-full shadow-md hover:scale-105 transition">
             {" "}
             {selectedMonth.toLocaleString("default", {
               month: "short",

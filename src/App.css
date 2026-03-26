@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
 @theme {
+  --color-mainText: #0d031b;
+  --color-subText: #6b7280;
+  --color-logoGradient: linear-gradient(135deg, #8b008b, #2e1a47);
+  --color-sidebarColor: #1a182e;
+  --color-sidebarHighlight: #cf5999;
+
   --color-mainHeading: #111111;
   --color-logoColor: #010007;
   --color-sidebar: #f6f4ff;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import SavingsIcon from "@mui/icons-material/Savings";
 import { NavLink } from "react-router-dom";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
@@ -19,12 +20,12 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
 
   return (
     <div>
-      <aside className="w-48 h-screen sticky top-0 bg-sidebar">
+      <aside className="w-48 h-screen sticky top-0 bg-sidebarColor">
         <div className="bg-primary h-full px-3 py-3 overflow-y-auto">
           <div className="flex items-center gap-2 py-6">
             <SavingsIcon sx={{ fontSize: 40, fill: "url(#gradient)" }} />
 
-            <p className="text-xl font-semibold text-mainHeading">BudgetPal</p>
+            <p className="text-xl font-semibold text-white">BudgetPal</p>
 
             <svg width="0" height="0">
               <defs>
@@ -35,8 +36,8 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
                   x2="100%"
                   y2="100%"
                 >
-                  <stop offset="0%" stopColor="#010200" />
-                  <stop offset="100%" stopColor="#836ffe" />
+                  <stop offset="0%" stopColor="#8b008b" />
+                  <stop offset="100%" stopColor="#fff" />
                 </linearGradient>
               </defs>
             </svg>
@@ -52,23 +53,23 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
                   <>
                     <span
                       className={`w-1 h-5 rounded-full transition-all ${
-                        isActive ? "bg-highlighter" : "bg-transparent"
+                        isActive ? "bg-sidebarHighlight" : "bg-transparent"
                       }`}
                     ></span>
 
                     <HomeRoundedIcon
                       className={`transition-colors ${
                         isActive
-                          ? "text-highlighter"
-                          : "text-menu group-hover:text-highlighter"
+                          ? "text-sidebarHighlight"
+                          : "text-white group-hover:text-sidebarHighlight"
                       }`}
                     />
 
                     <span
                       className={`text-body transition-colors ${
                         isActive
-                          ? "text-highlighter"
-                          : "text-menu group-hover:text-highlighter"
+                          ? "text-sidebarHighlight"
+                          : "text-white group-hover:text-sidebarHighlight"
                       }`}
                     >
                       Dashboard
@@ -86,23 +87,23 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
                   <>
                     <span
                       className={`w-1 h-5 rounded-full transition-all ${
-                        isActive ? "bg-highlighter" : "bg-transparent"
+                        isActive ? "bg-sidebarHighlight" : "bg-transparent"
                       }`}
                     ></span>
 
                     <AutoStoriesRoundedIcon
                       className={`transition-colors ${
                         isActive
-                          ? "text-highlighter"
-                          : "text-menu group-hover:text-highlighter"
+                          ? "text-sidebarHighlight"
+                          : "text-white group-hover:text-sidebarHighlight"
                       }`}
                     />
 
                     <span
                       className={`text-body transition-colors ${
                         isActive
-                          ? "text-highlighter"
-                          : "text-menu group-hover:text-highlighter"
+                          ? "text-sidebarHighlight"
+                          : "text-white group-hover:text-sidebarHighlight"
                       }`}
                     >
                       Budget
@@ -120,23 +121,23 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
                   <>
                     <span
                       className={`w-1 h-5 rounded-full transition-all ${
-                        isActive ? "bg-highlighter" : "bg-transparent"
+                        isActive ? "bg-sidebarHighlight" : "bg-transparent"
                       }`}
                     ></span>
 
                     <AreaChartRoundedIcon
                       className={`transition-colors ${
                         isActive
-                          ? "text-highlighter"
-                          : "text-menu group-hover:text-highlighter"
+                          ? "text-sidebarHighlight"
+                          : "text-white group-hover:text-sidebarHighlight"
                       }`}
                     />
 
                     <span
                       className={`text-body transition-colors ${
                         isActive
-                          ? "text-highlighter"
-                          : "text-menu group-hover:text-highlighter"
+                          ? "text-sidebarHighlight"
+                          : "text-white group-hover:text-sidebarHighlight"
                       }`}
                     >
                       Goals
@@ -154,23 +155,23 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
                   <>
                     <span
                       className={`w-1 h-5 rounded-full transition-all ${
-                        isActive ? "bg-highlighter" : "bg-transparent"
+                        isActive ? "bg-sidebarHighlight" : "bg-transparent"
                       }`}
                     ></span>
 
                     <AssessmentRoundedIcon
                       className={`transition-colors ${
                         isActive
-                          ? "text-highlighter"
-                          : "text-menu group-hover:text-highlighter"
+                          ? "text-sidebarHighlight"
+                          : "text-white group-hover:text-sidebarHighlight"
                       }`}
                     />
 
                     <span
                       className={`text-body transition-colors ${
                         isActive
-                          ? "text-highlighter"
-                          : "text-menu group-hover:text-highlighter"
+                          ? "text-sidebarHighlight"
+                          : "text-white group-hover:text-sidebarHighlight"
                       }`}
                     >
                       Reports
@@ -188,23 +189,23 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
                   <>
                     <span
                       className={`w-1 h-5 rounded-full transition-all ${
-                        isActive ? "bg-highlighter" : "bg-transparent"
+                        isActive ? "bg-sidebarHighlight" : "bg-transparent"
                       }`}
                     ></span>
 
                     <HelpRoundedIcon
                       className={`transition-colors ${
                         isActive
-                          ? "text-highlighter"
-                          : "text-menu group-hover:text-highlighter"
+                          ? "text-sidebarHighlight"
+                          : "text-white group-hover:text-sidebarHighlight"
                       }`}
                     />
 
                     <span
                       className={`text-body transition-colors ${
                         isActive
-                          ? "text-highlighter"
-                          : "text-menu group-hover:text-highlighter"
+                          ? "text-sidebarHighlight"
+                          : "text-white group-hover:text-sidebarHighlight"
                       }`}
                     >
                       Help
@@ -229,16 +230,42 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
                 ) : (
                   <AccountCircleRoundedIcon
                     sx={{ fontSize: 60 }}
-                    className="text-textPrimary group-hover:text-highlighter transition"
+                    className="text-white group-hover:text-sidebarHighlight transition"
                   />
                 )}
               </button>
             </div>
             <NavLink
               to="/"
-              className="flex items-center text-menu px-2 py-1.5 text-body rounded-base hover:text-highlighter group"
+              className="group flex items-center gap-2 py-1.5 rounded-sm"
             >
-              Sign Out
+              {({ isActive }) => (
+                <>
+                  <span
+                    className={`w-1 h-5 rounded-full transition-all ${
+                      isActive ? "bg-sidebarHighlight" : "bg-transparent"
+                    }`}
+                  ></span>
+
+                  <LogoutIcon
+                    className={`transition-colors ${
+                      isActive
+                        ? "text-sidebarHighlight"
+                        : "text-white group-hover:text-sidebarHighlight"
+                    }`}
+                  />
+
+                  <span
+                    className={`text-body transition-colors ${
+                      isActive
+                        ? "text-sidebarHighlight"
+                        : "text-white group-hover:text-sidebarHighlight"
+                    }`}
+                  >
+                    Log Out
+                  </span>
+                </>
+              )}
             </NavLink>
           </div>
         </div>

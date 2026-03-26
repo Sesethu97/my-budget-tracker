@@ -166,34 +166,33 @@ function Dashboard({ displayName }) {
   ];
 
   return (
-    <main className="px-4 pt-6 text-mainHeading">
+    <main className="px-4 pt-6 text-mainText">
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-1 pb-6 text-left">
           <h1 className="text-3xl font-bold pt-4 pl-2">
             Welcome back {displayName}!
           </h1>
-          <p className="text-sm text-textSecondary pl-2 pb-4">
+          <p className="text-sm text-subText pl-2 pb-4">
             Its time to manage your finances
           </p>
         </div>
-      </div>
-      <div className="flex justify-end gap-4 px-4">
-        <span className=" pt-2  p-2  text-menu border border-gray rounded-full shadow-md hover:scale-105 transition">
-          📅
-        </span>
-        <MonthPicker
-          selectedMonth={selectedMonth}
-          setSelectedMonth={setSelectedMonth}
-        />
+
+        <div className="flex items-center gap-4">
+          <span className="pt-2 p-2 bg-sidebarColor text-white border border-subText rounded-full shadow-md hover:scale-105 transition">
+            📅
+          </span>
+          <MonthPicker
+            selectedMonth={selectedMonth}
+            setSelectedMonth={setSelectedMonth}
+          />
+        </div>
       </div>
       <div>
         <div className="p-6 grid grid-cols-12 gap-6">
           <div className="col-span-12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            <a className="flex flex-col items-start gap-4 w-full  p-5 border border-headers rounded-xl shadow-md hover:shadow-lg transition bg-highlighter/1">
-              <h5 className="text-md  text-tertiary font-bold">
-                Total Balance
-              </h5>
-              <p className="text-2xl font-extrabold  text-mainHeading text-header">
+            <a className="flex flex-col items-start gap-4 w-full p-5 border bg-sidebarColor border-subText rounded-xl shadow-md hover:shadow-lg transition bg-highlighter/1">
+              <h5 className="text-md text-subText font-bold">Total Balance</h5>
+              <p className="text-2xl font-extrabold text-subText text-header">
                 R {totalBalance}
               </p>
               <span className="text-sm">
@@ -207,15 +206,24 @@ function Dashboard({ displayName }) {
                   {balanceDifference >= 0 ? "↑" : "↓"} R{" "}
                   {Math.abs(balanceDifference)}
                 </span>
-
-                <span className="ml-1 text-tertiary">vs last month</span>
+                <span className="ml-1 text-subText">vs last month</span>
               </span>
+              <div className="w-full h-10">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={chartData}>
+                    <Area
+                      type="monotone"
+                      dataKey="balance"
+                      stroke={balanceDifference >= 0 ? "#22c55e" : "#ef4444"}
+                      fillOpacity={0.1}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </a>
-            <a className="flex flex-col items-start gap-4 w-full  p-5 border border-textSecondary rounded-xl shadow-md hover:shadow-lg transition bg-highlighter/1">
-              <h5 className="text-md  text-tertiary font-bold">
-                Monthly Income
-              </h5>
-              <p className="text-2xl font-extrabold text-mainHeading">
+            <a className="flex flex-col items-start gap-4 w-full bg-sidebarColor p-5 border border-subText rounded-xl shadow-md hover:shadow-lg transition bg-highlighter/1">
+              <h5 className="text-md text-subText font-bold">Monthly Income</h5>
+              <p className="text-2xl font-extrabold text-subText">
                 R {totalIncome}
               </p>
               <span className="text-sm">
@@ -229,16 +237,28 @@ function Dashboard({ displayName }) {
                   {incomeDifference >= 0 ? "↑" : "↓"} R{" "}
                   {Math.abs(incomeDifference)}
                 </span>
-
-                <span className="ml-1 text-tertiary">vs last month</span>
+                <span className="ml-1 text-subText">vs last month</span>
               </span>
+              <div className="w-full h-10">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={chartData}>
+                    <Area
+                      type="monotone"
+                      dataKey="income"
+                      stroke={incomeDifference >= 0 ? "#22c55e" : "#ef4444"}
+                      fillOpacity={0.1}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </a>
-            <a className="flex flex-col items-start  gap-4 w-full  p-5 border border-textSecondary rounded-xl shadow-md hover:shadow-lg transition bg-highlighter/1">
-              <h5 className="text-md  text-tertiary font-bold">
+            {/* Monthly Expenses */}
+            <a className="flex flex-col items-start gap-4 w-full bg-sidebarColor p-5 border border-subText rounded-xl shadow-md hover:shadow-lg transition bg-highlighter/1">
+              <h5 className="text-md text-subText font-bold">
                 Monthly Expenses
               </h5>
-              <p className="text-2xl font-extrabold text-mainHwading">
-                R {totalIncome}
+              <p className="text-2xl font-extrabold text-subText">
+                R {totalExpenses}
               </p>
               <span className="text-sm">
                 <span
@@ -251,13 +271,24 @@ function Dashboard({ displayName }) {
                   {expensesDifference >= 0 ? "↑" : "↓"} R{" "}
                   {Math.abs(expensesDifference)}
                 </span>
-
-                <span className="ml-1 text-tertiary">vs last month</span>
+                <span className="ml-1 text-subText">vs last month</span>
               </span>
+              <div className="w-full h-10">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={chartData}>
+                    <Area
+                      type="monotone"
+                      dataKey="expenses"
+                      stroke={expensesDifference >= 0 ? "#22c55e" : "#ef4444"}
+                      fillOpacity={0.1}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </a>
-            <a className="flex flex-col items-start gap-4 w-full p-5 border border-textSecondary rounded-xl shadow-md hover:shadow-lg transition bg-highlighter/1">
-              <h5 className="text-md text-tertiary font-bold">Saving Rate</h5>
-              <p className="text-2xl font-extrabold text-mainHeading">
+            <a className="flex flex-col items-start gap-4 w-full p-5 border bg-sidebarColor border-subText rounded-xl shadow-md hover:shadow-lg transition bg-highlighter/1">
+              <h5 className="text-md text-subText font-bold">Saving Rate</h5>
+              <p className="text-2xl font-extrabold text-subText">
                 {savingsRate}%
               </p>
               <span className="text-sm">
@@ -268,21 +299,44 @@ function Dashboard({ displayName }) {
                       : "text-red-500 border-red-500"
                   }`}
                 >
-                  {savingsRateDifference >= 0 ? "↑" : "↓"} R{" "}
-                  {Math.abs(savingsRateDifference)}
+                  {savingsRateDifference >= 0 ? "↑" : "↓"}{" "}
+                  {Math.abs(savingsRateDifference)}%
                 </span>
 
-                <span className="ml-1 text-tertiary">vs last month</span>
+                <span className="ml-1 text-subText">vs last month</span>
               </span>
-            </a>
+
+              <div className="w-full h-10">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart
+                    data={chartData.map((d) => ({
+                      ...d,
+                      savingsRate:
+                        d.income > 0
+                          ? ((d.income - d.expenses) / d.income) * 100
+                          : 0,
+                    }))}
+                  >
+                    <Area
+                      type="monotone"
+                      dataKey="savingsRate"
+                      stroke={
+                        savingsRateDifference >= 0 ? "#22c55e" : "#ef4444"
+                      }
+                      fillOpacity={0.1}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </a>{" "}
           </div>
         </div>
         <div className="bg-neutral-primary-soft w-full mt-2 p-6 ">
           <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-2 bg-neutral-primary-soft p-6 border border-default rounded-md shadow-xs">
+            <div className="col-span-2 bg-sidebarColor p-6 border border-default rounded-md shadow-xs">
               <div className="flex justify-between items-center mb-4">
                 <div>
-                  <h5 className="text-2xl font-bold text-heading">
+                  <h5 className="text-2xl font-bold text-subText text-heading">
                     R {totalIncome}
                   </h5>
                   <p className="text-body">Monthly Income (Last 6 Months)</p>
@@ -394,8 +448,8 @@ function Dashboard({ displayName }) {
                 </ResponsiveContainer>
               </div>
             </div>
-            <div className="flex-1 bg-neutral-primary-soft p-6 border border-default rounded-md shadow-xs ">
-              <h3 className="text-tertiary mb-4">Monthly Expenses Breakdown</h3>
+            <div className="flex-1 bg-sidebarColor p-6 border border-default rounded-md shadow-xs ">
+              <h3 className="text-subText mb-4">Monthly Expenses Breakdown</h3>
 
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
