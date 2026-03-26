@@ -235,7 +235,7 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
               </button>
             </div>
             <NavLink
-              href="/"
+              to="/"
               className="flex items-center text-menu px-2 py-1.5 text-body rounded-base hover:text-highlighter group"
             >
               Sign Out

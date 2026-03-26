@@ -1,11 +1,19 @@
 import { useState, useEffect } from "react";
 import BudgetForm from "../../components/budgetform/BudgetForm";
+import AllocateSavings from "../../components/allocateSavings/AllocateSavings";
 
 function Budget() {
   const [openBudget, setOpenBudget] = useState(false);
   const [budgets, setBudgets] = useState([]);
   const [editBudget, setEditBudget] = useState(null);
   const [selectedBudgets, setSelectedBudgets] = useState([]);
+  const [selectedBudget, setSelectedBudget] = useState(null);
+  const [openAllocate, setOpenAllocate] = useState(false);
+
+  const handleAllocate = (budget) => {
+    setSelectedBudget(budget);
+    setOpenAllocate(true);
+  };
 
   const handleBudgetEdit = (budget) => {
     setEditBudget(budget);
@@ -150,6 +158,14 @@ function Budget() {
                         Edit
                       </button>
                     </td>
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() => handleAllocate(budget)}
+                        className="px-3 py-1 rounded bg-green-600 text-white hover:opacity-80"
+                      >
+                        Allocate
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -167,6 +183,14 @@ function Budget() {
             }}
             setBudgets={setBudgets}
             editingBudget={editBudget}
+          />
+        </div>
+      )}
+      {openAllocate && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+          <AllocateSavings
+            budget={selectedBudget}
+            closeModal={() => setOpenAllocate(false)}
           />
         </div>
       )}

@@ -178,7 +178,9 @@ function Dashboard({ displayName }) {
         </div>
       </div>
       <div className="flex justify-end gap-4 px-4">
-        <span className="  pt-2 border p-2 rounded-full ">📅</span>
+        <span className=" pt-2  p-2  text-menu border border-gray rounded-full shadow-md hover:scale-105 transition">
+          📅
+        </span>
         <MonthPicker
           selectedMonth={selectedMonth}
           setSelectedMonth={setSelectedMonth}
