@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import MonthPicker from "../../components/monthPicker/monthPicker";
-import dashbaordLogo from "../../assets/dashboardImg.png";
+import analyticsLogo from "../../assets/analyticsLogo.png";
+
 import {
   PieChart,
   Pie,
@@ -13,10 +14,11 @@ import {
   Tooltip,
   ResponsiveContainer,
   CartesianGrid,
+  BarChart,
+  Bar,
 } from "recharts";
-import BudgetForm from "../../components/budgetform/BudgetForm";
 
-function Dashboard({ displayName }) {
+function AnalyticDashboard() {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [budgets, setBudgets] = useState([]);
   const [openBudget, setOpenBudget] = useState(false);
@@ -113,10 +115,11 @@ function Dashboard({ displayName }) {
   const expensesDifference = totalExpenses - lastMonthExpenses;
   const savingsRateDifference = (savingsRate - lastMonthSavingsRate).toFixed(1);
 
-  const getLast6MonthsData = () => {
+  const getLast12MonthsData = () => {
     const data = [];
 
-    for (let i = 5; i >= 0; i--) {
+    for (let i = 11; i >= 0; i--) {
+      // 12 months instead of 6
       const d = new Date(selectedMonth);
       d.setMonth(d.getMonth() - i);
 
@@ -144,12 +147,12 @@ function Dashboard({ displayName }) {
     return data;
   };
 
-  const chartData = getLast6MonthsData();
+  const chartData = getLast12MonthsData();
 
   const getCategoryData = () => {
     const categoryMap = {};
 
-    currentMonthBudgets.forEach((budget) => {
+    budgets.forEach((budget) => {
       budget.expenses.forEach((exp) => {
         const cat = exp.category;
 
@@ -183,10 +186,10 @@ function Dashboard({ displayName }) {
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-1 pb-6 text-left">
           <h1 className="text-3xl font-bold pt-4 pl-2 text-white">
-            Welcome back {displayName}!
+            Analytics Dashboard
           </h1>
           <p className="text-sm text-subText pl-2 pb-4">
-            Its time to manage your finances
+            Detailed overview of your financial status
           </p>
         </div>
 
@@ -202,7 +205,7 @@ function Dashboard({ displayName }) {
       </div>
       {budgets.length === 0 ? (
         <div className="text-center text-subText">
-          <img src={dashbaordLogo} className="opacity-20 mx-auto block w-200" />
+          <img src={analyticsLogo} className="opacity-20 mx-auto block w-200" />
 
           <p className="pb-4">You haven't created any budgets yet</p>
           <div className="pb-6">
@@ -218,7 +221,7 @@ function Dashboard({ displayName }) {
         <div>
           <div className="p-6 grid grid-cols-12 gap-6">
             <div className="col-span-12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-              <a className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition">
+              <a className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-subText rounded-xl shadow-md transition">
                 <h5 className="text-md text-subText font-bold">
                   Total Balance
                 </h5>
@@ -251,7 +254,7 @@ function Dashboard({ displayName }) {
                   </ResponsiveContainer>
                 </div>
               </a>
-              <a className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition">
+              <a className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-subText rounded-xl shadow-md transition">
                 <h5 className="text-md text-subText font-bold">
                   Monthly Income
                 </h5>
@@ -284,7 +287,7 @@ function Dashboard({ displayName }) {
                   </ResponsiveContainer>
                 </div>
               </a>
-              <a className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition">
+              <a className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-subText rounded-xl shadow-md transition">
                 <h5 className="text-md text-subText font-bold">
                   Monthly Expenses
                 </h5>
@@ -317,7 +320,7 @@ function Dashboard({ displayName }) {
                   </ResponsiveContainer>
                 </div>
               </a>
-              <a className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition">
+              <a className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-subText rounded-xl shadow-md transition">
                 <h5 className="text-md text-subText font-bold">Saving Rate</h5>
                 <p className="text-2xl font-extrabold text-subText">
                   {savingsRate}%
@@ -364,93 +367,135 @@ function Dashboard({ displayName }) {
           </div>
           <div className="bg-neutral-primary-soft w-full mt-2 p-6 ">
             <div className="grid grid-cols-3 gap-4">
-              <div className="col-span-2 bg-sidebarColor p-6 border border-default rounded-md shadow-xs">
-                <div className="flex justify-between items-center mb-4">
-                  <div>
-                    <h5 className="text-2xl font-bold text-subText text-heading">
-                      R {totalIncome}
-                    </h5>
-                    <p className="text-subText text-sm">
-                      Monthly Income (Last 6 Months)
-                    </p>
-                  </div>
-                  <div
-                    className={`flex items-center px-2.5 py-0.5 font-medium text-center ${
-                      incomeDifference >= 0
-                        ? "text-white bg-sidebarHighlight/10 rounded"
-                        : "text-white bg-sidebarHighlight/10 rounded"
-                    }`}
-                  >
-                    <svg
-                      className="w-5 h-5 mr-1"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
+              <div className="col-span-2 space-y-4">
+                <div className="bg-sidebarColor p-6 border border-default rounded-md shadow-xs">
+                  <div className="flex justify-between items-center mb-4">
+                    <div>
+                      <h5 className="text-2xl font-bold text-subText text-heading">
+                        R {totalIncome}
+                      </h5>
+                      <p className="text-subText text-sm">
+                        Monthly Income (Last 6 Months)
+                      </p>
+                    </div>
+                    <div
+                      className={`flex items-center px-2.5 py-0.5 font-medium text-center ${
+                        incomeDifference >= 0
+                          ? "text-white bg-sidebarHighlight/10 rounded"
+                          : "text-white bg-sidebarHighlight/10 rounded"
+                      }`}
                     >
-                      {incomeDifference >= 0 ? (
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 6v13m0-13 4 4m-4-4-4 4"
+                      <svg
+                        className="w-5 h-5 mr-1"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        {incomeDifference >= 0 ? (
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 6v13m0-13 4 4m-4-4-4 4"
+                          />
+                        ) : (
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 18V5m0 13-4-4m4 4 4-4"
+                          />
+                        )}
+                      </svg>
+                      {Math.abs(incomeDifference)}%
+                    </div>
+                  </div>
+
+                  <div className="h-72">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={chartData}>
+                        <defs>
+                          <linearGradient
+                            id="incomeColor"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                          >
+                            <stop
+                              offset="5%"
+                              stopColor="#8370fe"
+                              stopOpacity={0.4}
+                            />
+                            <stop
+                              offset="95%"
+                              stopColor="#8370fe"
+                              stopOpacity={0}
+                            />
+                          </linearGradient>
+                          <linearGradient
+                            id="expenseColor"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                          >
+                            <stop
+                              offset="5%"
+                              stopColor="#beb6fa"
+                              stopOpacity={0.4}
+                            />
+                            <stop
+                              offset="95%"
+                              stopColor="#beb6fa"
+                              stopOpacity={0}
+                            />
+                          </linearGradient>
+                        </defs>
+
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis
+                          dataKey="month"
+                          tickFormatter={(m) =>
+                            new Date(m + "-01").toLocaleString("default", {
+                              month: "short",
+                            })
+                          }
                         />
-                      ) : (
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 18V5m0 13-4-4m4 4 4-4"
+                        <YAxis />
+                        <Tooltip formatter={(value) => `R ${value}`} />
+
+                        <Area
+                          type="monotone"
+                          dataKey="income"
+                          stroke="#8b008b"
+                          fill="url(#incomeColor)"
+                          strokeWidth={2}
                         />
-                      )}
-                    </svg>
-                    {Math.abs(incomeDifference)}%
+                        <Area
+                          type="monotone"
+                          dataKey="expenses"
+                          stroke="#c3b1e1"
+                          fill="url(#expenseColor)"
+                          strokeWidth={2}
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
 
-                <div className="h-72">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={chartData}>
-                      <defs>
-                        <linearGradient
-                          id="incomeColor"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="5%"
-                            stopColor="#8370fe"
-                            stopOpacity={0.4}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="#8370fe"
-                            stopOpacity={0}
-                          />
-                        </linearGradient>
-                        <linearGradient
-                          id="expenseColor"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="5%"
-                            stopColor="#beb6fa"
-                            stopOpacity={0.4}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="#beb6fa"
-                            stopOpacity={0}
-                          />
-                        </linearGradient>
-                      </defs>
+                <div className="bg-sidebarColor p-6 border border-default rounded-md shadow-xs">
+                  <h5 className="text-md text-subText font-bold mb-4">
+                    Income vs Expenses (Last 12 Months)
+                  </h5>
 
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart
+                      data={chartData} // use the last 12 months data we already generated
+                      margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis
                         dataKey="month"
@@ -462,29 +507,15 @@ function Dashboard({ displayName }) {
                       />
                       <YAxis />
                       <Tooltip formatter={(value) => `R ${value}`} />
-
-                      <Area
-                        type="monotone"
-                        dataKey="income"
-                        stroke="#8b008b"
-                        fill="url(#incomeColor)"
-                        strokeWidth={2}
-                      />
-                      <Area
-                        type="monotone"
-                        dataKey="expenses"
-                        stroke="#c3b1e1"
-                        fill="url(#expenseColor)"
-                        strokeWidth={2}
-                      />
-                    </AreaChart>
+                      <Legend />
+                      <Bar dataKey="income" stackId="a" fill="#8b008b" />
+                      <Bar dataKey="expenses" stackId="a" fill="#c3b1e1" />
+                    </BarChart>
                   </ResponsiveContainer>
                 </div>
               </div>
               <div className="flex-1 bg-sidebarColor p-6 border border-default rounded-md shadow-xs ">
-                <h3 className="text-subText mb-4">
-                  Monthly Expenses Breakdown
-                </h3>
+                <h3 className="text-subText mb-4"> Expenses Breakdown</h3>
 
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
@@ -511,65 +542,6 @@ function Dashboard({ displayName }) {
               </div>
             </div>
           </div>
-          <div className="bg-neutral-primary-soft w-full mt-2 p-6">
-            <div className="bg-sidebarColor p-6 border border-default rounded-md shadow-xs">
-              <h5 className="text-md text-subText font-bold mb-4">
-                Saving Goals
-              </h5>
-
-              {goals.length === 0 ? (
-                <p className="text-subText text-sm">
-                  No goals yet. Start saving 🚀
-                </p>
-              ) : (
-                <div className="space-y-4">
-                  {goals.map((goal) => {
-                    const progress =
-                      (Number(goal.saved) / Number(goal.target)) * 100;
-
-                    const percentage = Math.min(Math.round(progress), 100);
-
-                    return (
-                      <div key={goal.id} className="p-4 rounded-lg">
-                        <div className="flex justify-between items-center mb-2">
-                          <h3 className="text-subText font-semibold">
-                            {goal.name}
-                          </h3>
-
-                          <span className="text-sm text-subText">
-                            R{goal.saved} / R{goal.target}
-                          </span>
-                        </div>
-
-                        <div className="w-full bg-neutral-700 rounded-full h-5 relative overflow-hidden">
-                          <div
-                            className={`h-full rounded-full flex items-center px-2 ${
-                              percentage >= 100
-                                ? "bg-green-500"
-                                : "bg-sidebarHighlight"
-                            }`}
-                            style={{ width: `${percentage}%` }}
-                          >
-                            {percentage > 10 && (
-                              <span className="text-xs text-white font-medium">
-                                {percentage}%
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        {percentage >= 100 && (
-                          <p className="text-green-400 text-xs mt-1">
-                            Goal reached 🎉
-                          </p>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
         </div>
       )}
       {openBudget && (
@@ -585,4 +557,4 @@ function Dashboard({ displayName }) {
     </main>
   );
 }
-export default Dashboard;
+export default AnalyticDashboard;

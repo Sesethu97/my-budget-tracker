@@ -13,11 +13,6 @@ import AreaChartRoundedIcon from "@mui/icons-material/AreaChartRounded";
 function Sidenav({ openPopup, displayName, userName, profilePic }) {
   const initial = userName ? userName.substring(0, 2).toUpperCase() : "";
 
-  console.log("initial dashboard", initial);
-  console.log("initial displayName", displayName);
-  console.log("initial userName", userName);
-  console.log("initial profilepic", profilePic);
-
   return (
     <div>
       <aside className="w-48 h-screen sticky top-0 bg-sidebarColor">
@@ -43,7 +38,7 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
             </svg>
           </div>
 
-          <ul className="space-y-4  text-l  pt-4 ">
+          <ul className="space-y-4  text-l  pt-10 ">
             <li>
               <NavLink
                 to="/home"
@@ -81,7 +76,7 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
             <li>
               <NavLink
                 to="/budget"
-                className="group flex items-center gap-2 py-1.5 rounded-sm"
+                className="group flex items-center gap-2 py-2 rounded-sm"
               >
                 {({ isActive }) => (
                   <>
@@ -115,7 +110,7 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
             <li>
               <NavLink
                 to="/goals"
-                className="group flex items-center gap-2 py-1.5 rounded-sm"
+                className="group flex items-center gap-2 py-2 rounded-sm"
               >
                 {({ isActive }) => (
                   <>
@@ -148,8 +143,8 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
             </li>
             <li>
               <NavLink
-                to="/"
-                className="group flex items-center gap-2 py-1.5 rounded-sm"
+                to="/analytics"
+                className="group flex items-center gap-2 py-2 rounded-sm"
               >
                 {({ isActive }) => (
                   <>
@@ -174,7 +169,7 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
                           : "text-white group-hover:text-sidebarHighlight"
                       }`}
                     >
-                      Reports
+                      Analytics
                     </span>
                   </>
                 )}
@@ -183,7 +178,7 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
             <li>
               <NavLink
                 to="/help"
-                className="group flex items-center gap-2 py-1.5 rounded-sm"
+                className="group flex items-center gap-2 py-2 rounded-sm"
               >
                 {({ isActive }) => (
                   <>

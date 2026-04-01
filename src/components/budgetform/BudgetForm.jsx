@@ -93,7 +93,7 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
     <div>
       <form
         onSubmit={handleSubmit}
-        className="max-w-lg w-125 max-h-[90vh] overflow-y-auto rounded-md p-6 shadow-2xl bg-primary text-white relative"
+        className="max-w-lg w-125 max-h-[90vh] overflow-y-auto rounded-md p-6 shadow-2xl bg-sidebarColor text-white relative"
       >
         <button
           type="button"
@@ -112,7 +112,7 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
             </label>
             <input
               type="text"
-              className="w-full border bg-secondary rounded p-2"
+              className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
               value={budgetName}
               onChange={(e) => setBudgetName(e.target.value)}
             />
@@ -123,7 +123,7 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
               <label className="block mb-2 text-sm font-medium">Income</label>
               <input
                 type="number"
-                className="w-full bg-secondary border rounded p-2"
+                className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
                 value={income}
                 onChange={(e) => setIncome(e.target.value)}
               />
@@ -133,7 +133,7 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
               <label className="block mb-2 text-sm font-medium">Month</label>
               <input
                 type="month"
-                className="w-full bg-secondary border rounded p-2"
+                className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
                 value={month}
                 onChange={(e) => setMonth(e.target.value)}
               />
@@ -145,45 +145,57 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
           <h2 className="text-lg font-semibold">Expense Categories</h2>
 
           {expenses.map((expense, index) => (
-            <div key={index} className="flex gap-3">
-              <select
-                value={expense.category}
-                onChange={(e) =>
-                  handleChange(index, "category", e.target.value)
-                }
-                className="flex-1 bg-secondary border rounded p-2"
-              >
-                <option value="">Select Category</option>
-                {preset.map((cat, i) => (
-                  <option key={i}>{cat}</option>
-                ))}
-              </select>
+            <div key={index} className="flex gap-3 items-end">
+              <div className="w-full">
+                <select
+                  value={expense.category}
+                  onChange={(e) =>
+                    handleChange(index, "category", e.target.value)
+                  }
+                  className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
+                >
+                  <option value="">Select Category</option>
+                  {preset.map((cat, i) => (
+                    <option key={i}>{cat}</option>
+                  ))}
+                </select>
+              </div>
 
-              <input
-                type="number"
-                placeholder="Amount"
-                value={expense.amount}
-                onChange={(e) => handleChange(index, "amount", e.target.value)}
-                className="w-32 bg-secondary border rounded p-2"
-              />
+              <div className="w-full">
+                <input
+                  type="number"
+                  placeholder="Amount"
+                  value={expense.amount}
+                  onChange={(e) =>
+                    handleChange(index, "amount", e.target.value)
+                  }
+                  className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
+                />
+              </div>
             </div>
           ))}
 
           <button
             type="button"
             onClick={addExpense}
-            className="text-magenta text-sm"
+            className="text-white text-sm"
           >
             + Add Category
           </button>
         </div>
+        <div className="flex justify-end gap-4">
+          <button
+            onClick={closeModal}
+            className="px-5 py-2 rounded-full bg-sidebarHighlight text-white"
+          >
+            Cancel
+          </button>
 
-        <div className="mt-10">
           <button
             type="submit"
-            className="bg-magenta text-white px-4 py-2 rounded w-full"
+            className="px-5 py-2 rounded-full bg-white text-black "
           >
-            Save Budget
+            Save
           </button>
         </div>
       </form>

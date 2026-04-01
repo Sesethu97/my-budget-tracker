@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import GoalsForm from "../../components/goalsform/GoalsForm";
 import MonthPicker from "../../components/monthPicker/monthPicker";
+import goalsLogo from "../../assets/goalsLogo.png";
 
 function Goals() {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
@@ -18,19 +19,28 @@ function Goals() {
     setOpenGoals(true);
   };
 
+  const handleDelete = (id) => {
+    const existingGoals = JSON.parse(localStorage.getItem("goals")) || [];
+
+    const updatedGoals = existingGoals.filter((g) => g.id !== id);
+
+    localStorage.setItem("goals", JSON.stringify(updatedGoals));
+    setGoals(updatedGoals);
+  };
+
   return (
     <main className="px-4 text-mainHeading">
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-1 pb-6 text-left">
-          <h1 className="text-3xl font-bold pt-4 pl-2">Goals</h1>
-          <p className="text-sm text-textSecondary pl-2 pb-4">
+          <h1 className="text-3xl font-bold text-white pt-4 pl-2">Goals</h1>
+          <p className="text-sm text-subText text-textSecondary pl-2 pb-4">
             Create financial goals and manage your savings
           </p>
         </div>
       </div>
 
       <div className="flex justify-end items-center gap-4 px-4">
-        <span className="p-2 text-menu border border-gray rounded-full shadow-md hover:scale-105 transition">
+        <span className="p-2 text-menu border border-subText rounded-full shadow-md hover:scale-105 transition">
           📅
         </span>
 
@@ -50,14 +60,14 @@ function Goals() {
       </div>
 
       {goals.length === 0 ? (
-        <div className="flex flex-col items-center justify-center min-h-[70vh] text-center">
-          <p className="text-textSecondary mb-4">
-            You don’t have any goals yet
-          </p>
+        <div className="text-center text-subText">
+          <img src={goalsLogo} className="opacity-20 mx-auto block w-140" />
+
+          <p className="pb-4"> You don’t have any goals yet</p>
 
           <button
+            className="pt-2 p-2 text-white border bg-sidebarHighlight border-mainText rounded-full shadow-md hover:scale-105 transition"
             onClick={handleOpenGoals}
-            className="bg-magenta text-white px-6 py-3 rounded-full shadow-md hover:scale-105 transition"
           >
             + Set New Goals
           </button>
@@ -75,29 +85,34 @@ function Goals() {
                 >
                   <div className="flex justify-between items-center mb-2">
                     <h3 className="font-semibold">{goal.name}</h3>
-                    <button className="text-sm">x</button>
+                    <button
+                      onClick={() => handleDelete(goal.id)}
+                      className="text-sm text-sidebarColor font-bold"
+                    >
+                      ×
+                    </button>{" "}
                   </div>
 
-                  <p className="text-sm text-gray-500 mb-2">
+                  <p className="text-sm text-subText mb-2">
                     Due: {goal.deadline}
                   </p>
 
                   <h2 className="text-xl font-bold">
                     R{goal.saved}
-                    <span className="text-sm text-gray-400">
+                    <span className="text-sm text-subText">
                       {" "}
                       / R{goal.target}
                     </span>
                   </h2>
 
-                  <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
+                  <div className="w-full bg-subText rounded-full h-2 mt-3">
                     <div
                       className="bg-magenta h-2 rounded-full"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
 
-                  <p className="text-xs text-gray-500 mt-2">
+                  <p className="text-xs text-subText mt-2">
                     {progress.toFixed(0)}% complete
                   </p>
                 </div>
@@ -108,7 +123,7 @@ function Goals() {
       )}
 
       {openGoals && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-backgroundColor/5 backdrop-blur-sm z-50">
           <GoalsForm
             closeModal={() => setOpenGoals(false)}
             setGoals={setGoals}

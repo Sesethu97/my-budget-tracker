@@ -5,24 +5,11 @@
   --color-subText: #6b7280;
   --color-logoGradient: linear-gradient(135deg, #8b008b, #2e1a47);
   --color-sidebarColor: #1a182e;
-  --color-sidebarHighlight: #cf5999;
-
-  --color-mainHeading: #111111;
-  --color-logoColor: #010007;
-  --color-sidebar: #f6f4ff;
-  --color-menu: #3a3941;
-  --color-headers: #242424;
-  --color-highlighter: #8370fe;
-  --color-lightHighligher: #beb6fa;
-  --color-secondary: #444349;
-  --color-tertiary: #82828a;
-
+  --color-sidebarHighlight: #8b008b;
+  --color-backgroundColor: #242238;
   --color-gray: #d0cfd4;
   --color-lightgray: #eae9fa;
 
-  --color-textPrimary: #1f2937;
-  --color-textSecondary: #6b7280;
-  --color-border: #e5e7eb;
   --color-success: #22c55e;
   --color-danger: #ef4444;
   --color-action-500: oklch(0.623 0.214 259.815);

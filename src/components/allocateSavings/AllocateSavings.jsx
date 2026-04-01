@@ -42,7 +42,14 @@ function AllocateSavings({ budget, closeModal }) {
   };
 
   return (
-    <div className="bg-menu p-6 rounded-lg w-[400px]">
+    <div className="max-w-lg w-125 max-h-[90vh] overflow-y-auto rounded-md p-6 shadow-2xl bg-sidebarColor text-white relative">
+      <button
+        type="button"
+        onClick={closeModal}
+        className="absolute top-2 right-3 text-white text-lg"
+      >
+        ✕
+      </button>
       <h2 className="text-lg font-bold mb-4">
         Allocate Savings (R{budget.savings})
       </h2>
@@ -60,7 +67,7 @@ function AllocateSavings({ budget, closeModal }) {
 
       <button
         onClick={handleSubmit}
-        className="bg-magenta text-white w-full py-2 rounded mt-4"
+        className="flex items-center  justify-center pt-2 p-2 text-white border bg-sidebarHighlight border-subText rounded-full shadow-md hover:scale-105 transition"
       >
         Save Allocation
       </button>
