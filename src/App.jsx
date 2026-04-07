@@ -9,17 +9,20 @@ import Popup from "./components/popup/Popup";
 import Budget from "./pages/budget/Budget";
 import Goals from "./pages/goals/Goals";
 import AnalyticDashboard from "./pages/analytics/AnalyticDashboard";
+import Login from "./pages/login/login";
+import Signup from "./pages/signup/signup";
 
 function App() {
   const location = useLocation();
-  const showSidenav = location.pathname !== "/";
+  const showSidenav =
+    location.pathname !== "/" && location.pathname !== "/signup";
 
   const [openPopUp, setOpenPopUp] = useState(false);
-  const [userName, setUserName] = useState("test case");
-  const [displayName, setDisplayName] = useState("testcase");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [profilePic, setProfilePic] = useState(null);
 
-  const initial = userName ? userName.substring(0, 2).toUpperCase() : "";
+  const initial = username ? username.substring(0, 2).toUpperCase() : "";
 
   const handleProfilePicChange = (e) => {
     const file = e.target.files[0];
@@ -31,30 +34,34 @@ function App() {
     }
   };
   const handleSave = () => {
-    console.log("Username:", userName);
-    console.log("Display name:", displayName);
+    console.log("Username:", username);
+    console.log("Email:", email);
     console.log("Profile pic:", profilePic);
 
     setOpenPopUp(false);
   };
+
+  const [budgets, setBudgets] = useState(() => {
+    const saved = localStorage.getItem("budgets");
+    return saved ? JSON.parse(saved) : [];
+  });
 
   return (
     <div className="flex min-h-screen">
       {showSidenav && (
         <Sidenav
           openPopup={() => setOpenPopUp(true)}
-          displayName={displayName}
-          userName={userName}
+          email={email}
+          username={username}
           profilePic={profilePic}
         />
       )}
       <main className="flex-1 overflow-y-auto">
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route
-            path="/home"
-            element={<Dashboard displayName={displayName} />}
-          />
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
+          <Route path="/home" element={<Dashboard username={username} />} />
           <Route path="/help" element={<Help />} />
           <Route path="/budget" element={<Budget />} />
           <Route path="/goals" element={<Goals />} />
@@ -100,8 +107,8 @@ function App() {
               <label className="text-sm text-white">Display name</label>
               <input
                 type="text"
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="w-full mt-1 p-3 rounded-lg bg-gray/50 border border-mainText focus:outline-none"
               />
             </div>
@@ -110,8 +117,8 @@ function App() {
               <label className="text-sm text-white">Username</label>
               <input
                 type="text"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full mt-1 p-3 rounded-lg bg-gray/50 border border-mainText focus:outline-none "
               />
             </div>

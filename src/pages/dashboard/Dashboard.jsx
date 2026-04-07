@@ -16,12 +16,16 @@ import {
 } from "recharts";
 import BudgetForm from "../../components/budgetform/BudgetForm";
 
-function Dashboard({ displayName }) {
+function Dashboard({ username }) {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [budgets, setBudgets] = useState([]);
   const [openBudget, setOpenBudget] = useState(false);
 
   const [goals, setGoals] = useState([]);
+
+  // useEffect(() => {
+  //   localStorage.clear();
+  // }, []);
 
   useEffect(() => {
     const savedGoals = localStorage.getItem("goals");
@@ -183,7 +187,7 @@ function Dashboard({ displayName }) {
       <div className="flex justify-between items-center">
         <div className="flex flex-col gap-1 pb-6 text-left">
           <h1 className="text-3xl font-bold pt-4 pl-2 text-white">
-            Welcome back {displayName}!
+            Welcome back {username}!
           </h1>
           <p className="text-sm text-subText pl-2 pb-4">
             Its time to manage your finances
@@ -200,9 +204,17 @@ function Dashboard({ displayName }) {
           />
         </div>
       </div>
+      <div className="flex justify-end">
+        <button
+          onClick={() => setOpenBudget(true)}
+          className="ml-auto p-2 text-white border bg-sidebarHighlight border-mainText rounded-full shadow-md hover:scale-105 transition"
+        >
+          + Create Budget
+        </button>
+      </div>
       {budgets.length === 0 ? (
         <div className="text-center text-subText">
-          <img src={dashbaordLogo} className="opacity-20 mx-auto block w-200" />
+          <img src={dashbaordLogo} className="opacity-20 mx-auto block w-180" />
 
           <p className="pb-4">You haven't created any budgets yet</p>
           <div className="pb-6">

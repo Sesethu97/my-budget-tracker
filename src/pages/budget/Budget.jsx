@@ -11,7 +11,11 @@ function Budget() {
   const [selectedBudget, setSelectedBudget] = useState(null);
   const [openAllocate, setOpenAllocate] = useState(false);
   const [goals, setGoals] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState(new Date());
 
+  const filteredBudgets = budgets.filter(
+    (b) => b.month === selectedMonth.toISOString().slice(0, 7),
+  );
   useEffect(() => {
     const savedGoals = localStorage.getItem("goals");
     if (savedGoals) {
@@ -84,17 +88,20 @@ function Budget() {
               Delete ({selectedBudgets.length})
             </button>
           )}
-
-          <button
-            onClick={() => setOpenBudget(true)}
-            className="ml-auto p-2 text-white border bg-sidebarHighlight border-mainText rounded-full shadow-md hover:scale-105 transition"
-          >
-            Create Budget
-          </button>
+          {budgets.length === 0 ? (
+            <button
+              onClick={() => setOpenBudget(true)}
+              className="ml-auto p-2 text-white border bg-sidebarHighlight border-mainText rounded-full shadow-md hover:scale-105 transition"
+            >
+              + Create Budget
+            </button>
+          ) : (
+            ""
+          )}
         </div>
 
         <div className="  relative overflow-x-auto ">
-          {budgets.length === 0 ? (
+          {filteredBudgets.length === 0 ? (
             <div className="text-center text-subText">
               <img
                 src={budgetLogo}
@@ -107,7 +114,7 @@ function Budget() {
                 className="pt-2 p-2 text-white border bg-sidebarHighlight border-mainText rounded-full shadow-md hover:scale-105 transition"
                 onClick={() => setOpenBudget(true)}
               >
-                Create Budget
+                + Create Budget
               </button>
             </div>
           ) : (
