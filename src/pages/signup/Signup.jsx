@@ -8,6 +8,7 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleSubmit = (e) => {
     console.log("Username:", username);
@@ -36,7 +37,7 @@ function Signup() {
 
   return (
     <main className="grid grid-cols-2 min-h-screen">
-      <div className="bg-sidebarColor flex items-center justify-center p-8">
+      <div className="bg-sidebarColor/20 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <form className="text-white" onSubmit={handleSubmit}>
             <div className="space-y-4">
@@ -97,6 +98,8 @@ function Signup() {
                 <input
                   id="default-checkbox"
                   type="checkbox"
+                  checked={isChecked}
+                  onChange={(e) => setIsChecked(e.target.checked)}
                   className="w-4 h-4 rounded border-gray-300"
                 />
                 <label
@@ -109,7 +112,12 @@ function Signup() {
 
               <button
                 type="submit"
-                className="px-5 py-2 w-full rounded-full bg-white text-black font-bold"
+                disabled={!isChecked}
+                className={`px-5 py-2 w-full rounded-full font-bold transition-opacity ${
+                  isChecked
+                    ? "bg-white text-black cursor-pointer"
+                    : "bg-gray-400 text-white cursor-not-allowed opacity-50"
+                }`}
               >
                 Sign up
               </button>

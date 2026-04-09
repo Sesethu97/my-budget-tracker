@@ -58,10 +58,16 @@ function App() {
       )}
       <main className="flex-1 overflow-y-auto">
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route
+            path="/"
+            element={<Login setUsername={setUsername} setEmail={setEmail} />}
+          />
           <Route path="/signup" element={<Signup />} />
 
-          <Route path="/home" element={<Dashboard username={username} />} />
+          <Route
+            path="/dashboard"
+            element={<Dashboard username={username} />}
+          />
           <Route path="/help" element={<Help />} />
           <Route path="/budget" element={<Budget />} />
           <Route path="/goals" element={<Goals />} />
@@ -104,7 +110,7 @@ function App() {
             </div>
 
             <div className="mb-4">
-              <label className="text-sm text-white">Display name</label>
+              <label className="text-sm text-white">Username</label>
               <input
                 type="text"
                 value={username}
@@ -114,7 +120,7 @@ function App() {
             </div>
 
             <div className="mb-6">
-              <label className="text-sm text-white">Username</label>
+              <label className="text-sm text-white">Email</label>
               <input
                 type="text"
                 value={email}

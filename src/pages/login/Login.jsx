@@ -2,18 +2,32 @@ import { NavLink, useNavigate } from "react-router-dom";
 import loginlogo from "../../assets/loginLogo.png";
 import { useState } from "react";
 
-function Login() {
-  const [username, setUserName] = useState("");
+function Login({ setUsername, setEmail }) {
   const [password, setPassword] = useState("");
+  const [email, setEmailInput] = useState("");
   const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/dashboard");
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (
+      storedUser &&
+      email === storedUser.email &&
+      password === storedUser.password
+    ) {
+      setUsername(storedUser.username);
+      setEmail(storedUser.email);
+
+      navigate("/dashboard");
+    } else {
+      alert("Invalid login details");
+    }
   };
   return (
     <main className="grid grid-cols-2 min-h-screen">
-      <div className="bg-sidebarColor flex items-center justify-center p-8">
+      <div className="bg-sidebarColor/20 flex items-center justify-center p-8 overflow-y-auto">
         <div className="w-full max-w-md">
           <form className="text-white" onSubmit={handleSubmit}>
             <div className="space-y-4">
@@ -25,9 +39,9 @@ function Login() {
               <div>
                 <label className="block mb-2 text-sm font-medium">Email</label>
                 <input
-                  type="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmailInput(e.target.value)}
                   className="w-full p-3 rounded-full bg-subText/50 border border-mainText focus:outline-none"
                 />
               </div>
@@ -48,6 +62,8 @@ function Login() {
                 <input
                   id="default-checkbox"
                   type="checkbox"
+                  checked={isChecked}
+                  onChange={(e) => setIsChecked(e.target.checked)}
                   className="w-4 h-4 rounded border-gray-300"
                 />
                 <label
@@ -60,7 +76,12 @@ function Login() {
 
               <button
                 type="submit"
-                className="px-5 py-2 w-full rounded-full bg-white text-black font-bold"
+                disabled={!isChecked}
+                className={`px-5 py-2 w-full rounded-full font-bold transition-opacity ${
+                  isChecked
+                    ? "bg-white text-black cursor-pointer"
+                    : "bg-gray-400 text-white cursor-not-allowed opacity-50"
+                }`}
               >
                 Sign in
               </button>

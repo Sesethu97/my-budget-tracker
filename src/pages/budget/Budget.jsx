@@ -89,14 +89,14 @@ function Budget() {
             </button>
           )}
           {budgets.length === 0 ? (
+            ""
+          ) : (
             <button
               onClick={() => setOpenBudget(true)}
               className="ml-auto p-2 text-white border bg-sidebarHighlight border-mainText rounded-full shadow-md hover:scale-105 transition"
             >
               + Create Budget
             </button>
-          ) : (
-            ""
           )}
         </div>
 

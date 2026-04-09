@@ -204,14 +204,18 @@ function Dashboard({ username }) {
           />
         </div>
       </div>
-      <div className="flex justify-end">
-        <button
-          onClick={() => setOpenBudget(true)}
-          className="ml-auto p-2 text-white border bg-sidebarHighlight border-mainText rounded-full shadow-md hover:scale-105 transition"
-        >
-          + Create Budget
-        </button>
-      </div>
+      {budgets.length === 0 ? (
+        ""
+      ) : (
+        <div className="flex justify-end">
+          <button
+            onClick={() => setOpenBudget(true)}
+            className="ml-auto p-2 text-white border bg-sidebarHighlight border-mainText rounded-full shadow-md hover:scale-105 transition"
+          >
+            + Create Budget
+          </button>
+        </div>
+      )}
       {budgets.length === 0 ? (
         <div className="text-center text-subText">
           <img src={dashbaordLogo} className="opacity-20 mx-auto block w-180" />

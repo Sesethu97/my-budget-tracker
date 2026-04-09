@@ -41,7 +41,7 @@ function Sidenav({ openPopup, displayName, userName, profilePic }) {
           <ul className="space-y-4  text-l  pt-10 ">
             <li>
               <NavLink
-                to="/home"
+                to="/dashboard"
                 className="group flex items-center gap-2 py-1.5 rounded-sm"
               >
                 {({ isActive }) => (
