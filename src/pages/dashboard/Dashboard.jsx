@@ -15,11 +15,13 @@ import {
   CartesianGrid,
 } from "recharts";
 import BudgetForm from "../../components/budgetform/BudgetForm";
+import { useNavigate, useNavigation } from "react-router-dom";
 
 function Dashboard({ username }) {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [budgets, setBudgets] = useState([]);
   const [openBudget, setOpenBudget] = useState(false);
+  const navigate = useNavigate();
 
   const [goals, setGoals] = useState([]);
 
@@ -47,8 +49,6 @@ function Dashboard({ username }) {
   const currentMonthBudgets = budgets.filter(
     (budget) => budget.month === currentMonth,
   );
-
-  console.log(budgets.savings);
 
   const totalIncome = currentMonthBudgets.reduce(
     (sum, budget) => sum + Number(budget.income),
@@ -174,12 +174,19 @@ function Dashboard({ username }) {
   const pieData = getCategoryData();
 
   const COLORS = [
-    "#1a182e",
-    "#8b008b",
-    "#c3b1e1",
-    "#010007",
-    "#0d031b",
-    "#444349",
+    "#301934",
+    "#7F00FF",
+    "#800080",
+    "#E6E6FA",
+    "#FF00FF",
+    "#DA70D6",
+    "#673147",
+    "#AA98A9",
+    "#702963",
+    "#4B0082",
+    "#C3B1E1",
+    "#E0B0FF",
+    "#483248 ",
   ];
 
   return (
@@ -189,7 +196,7 @@ function Dashboard({ username }) {
           <h1 className="text-3xl font-bold pt-4 pl-2 text-white">
             Welcome back {username}!
           </h1>
-          <p className="text-sm text-subText pl-2 pb-4">
+          <p className="text-md text-subText pl-2 pb-4">
             Its time to manage your finances
           </p>
         </div>
@@ -234,7 +241,10 @@ function Dashboard({ username }) {
         <div>
           <div className="p-6 grid grid-cols-12 gap-6">
             <div className="col-span-12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-              <a className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition">
+              <div
+                onClick={() => navigate("/budget")}
+                className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition"
+              >
                 <h5 className="text-md text-subText font-bold">
                   Total Balance
                 </h5>
@@ -266,8 +276,11 @@ function Dashboard({ username }) {
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
-              </a>
-              <a className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition">
+              </div>
+              <div
+                onClick={() => navigate("/budget")}
+                className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition"
+              >
                 <h5 className="text-md text-subText font-bold">
                   Monthly Income
                 </h5>
@@ -299,8 +312,11 @@ function Dashboard({ username }) {
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
-              </a>
-              <a className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition">
+              </div>
+              <div
+                onClick={() => navigate("/budget")}
+                className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition"
+              >
                 <h5 className="text-md text-subText font-bold">
                   Monthly Expenses
                 </h5>
@@ -332,8 +348,11 @@ function Dashboard({ username }) {
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
-              </a>
-              <a className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition">
+              </div>
+              <div
+                onClick={() => navigate("/budget")}
+                className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition"
+              >
                 <h5 className="text-md text-subText font-bold">Saving Rate</h5>
                 <p className="text-2xl font-extrabold text-subText">
                   {savingsRate}%
@@ -375,7 +394,7 @@ function Dashboard({ username }) {
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
-              </a>{" "}
+              </div>{" "}
             </div>
           </div>
           <div className="bg-neutral-primary-soft w-full mt-2 p-6 ">

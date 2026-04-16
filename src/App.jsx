@@ -11,6 +11,7 @@ import Goals from "./pages/goals/Goals";
 import AnalyticDashboard from "./pages/analytics/AnalyticDashboard";
 import Login from "./pages/login/login";
 import Signup from "./pages/signup/signup";
+import { AddAPhotoRounded } from "@mui/icons-material";
 
 function App() {
   const location = useLocation();
@@ -80,7 +81,7 @@ function App() {
             <h2 className=" text-white text-lg font-bold mb-6">Edit profile</h2>
 
             <div className="flex justify-center mb-6 relative">
-              <div className="w-32 h-32 rounded-full overflow-hidden bg-gradient-to-r from-sidebarHighlight to-white flex items-center justify-center text-4xl font-semibold">
+              <div className="w-32 h-32 rounded-full overflow-hidden bg-linear-to-r from-white to-sidebarHighlight flex items-center justify-center text-4xl font-semibold">
                 {profilePic ? (
                   <img
                     src={profilePic}
@@ -103,9 +104,9 @@ function App() {
                 onClick={() =>
                   document.getElementById("profilePicInput").click()
                 }
-                className="absolute bottom-1 left-52 p-2 bg-gray rounded-full hover:bg-gray"
+                className="absolute bottom-1 left-52 p-2  hover:bg-gray"
               >
-                📷
+                <AddAPhotoRounded className="text-white" />
               </button>
             </div>
 
@@ -115,7 +116,7 @@ function App() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full mt-1 p-3 rounded-lg bg-gray/50 border border-mainText focus:outline-none"
+                className="w-full mt-1 p-3 rounded-lg bg-gray/50 border main-mainText border-mainText focus:outline-none"
               />
             </div>
 
@@ -125,21 +126,21 @@ function App() {
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full mt-1 p-3 rounded-lg bg-gray/50 border border-mainText focus:outline-none "
+                className="w-full mt-1 p-3 rounded-lg bg-gray/50 text-mainText border border-mainText focus:outline-none "
               />
             </div>
 
             <div className="flex justify-end gap-4">
               <button
                 onClick={() => setOpenPopUp(false)}
-                className="px-5 py-2 rounded-full bg-sidebarHighlight text-white"
+                className="px-5 py-2 rounded-full bg-white text-mainText"
               >
                 Cancel
               </button>
 
               <button
                 onClick={handleSave}
-                className="px-5 py-2 rounded-full bg-white text-black "
+                className="px-5 py-2 rounded-full bg-sidebarHighlight text-white "
               >
                 Save
               </button>

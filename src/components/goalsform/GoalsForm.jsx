@@ -49,7 +49,7 @@ function GoalsForm({ closeModal, setGoals, editingGoal }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-lg w-125 max-h-[90vh] overflow-y-auto rounded-md p-6 shadow-2xl bg-primary text-white relative"
+      className="max-w-lg w-125 max-h-[90vh] overflow-y-auto rounded-md p-6 shadow-2xl bg-sidebarColor text-white relative"
     >
       <button
         type="button"
@@ -59,13 +59,13 @@ function GoalsForm({ closeModal, setGoals, editingGoal }) {
         X
       </button>
 
-      <h2 className="text-center font-bold mb-6">Financial Goals</h2>
+      <h2 className="text-center text-2xl font-bold mb-6">Financial Goals</h2>
       <div className="space-y-4">
         <div>
-          <label className="block mb-2 text-sm font-medium">Goal Name</label>
+          <label className="block  mb-2 text-md font-medium">Goal Name</label>
           <input
             type="text"
-            className="w-full border bg-secondary rounded p-2"
+            className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
             value={goalName}
             onChange={(e) => setGoalName(e.target.value)}
             required
@@ -74,12 +74,12 @@ function GoalsForm({ closeModal, setGoals, editingGoal }) {
 
         <div className="flex gap-3">
           <div className="flex-1">
-            <label className="block mb-2 text-sm font-medium">
+            <label className="block mb-2 text-dm font-medium">
               Target Amount
             </label>
             <input
               type="number"
-              className="w-full bg-secondary border rounded p-2"
+              className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
               value={target}
               onChange={(e) => setTarget(e.target.value)}
               required
@@ -87,12 +87,12 @@ function GoalsForm({ closeModal, setGoals, editingGoal }) {
           </div>
 
           <div className="flex-1">
-            <label className="block mb-2 text-sm font-medium">
+            <label className="block mb-2 text-md font-medium">
               Amount Saved
             </label>
             <input
               type="number"
-              className="w-full bg-secondary border rounded p-2"
+              className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
               value={saved}
               onChange={(e) => setSaved(e.target.value)}
               required
@@ -100,10 +100,10 @@ function GoalsForm({ closeModal, setGoals, editingGoal }) {
           </div>
 
           <div className="flex-1">
-            <label className="block mb-2 text-sm font-medium">Deadline</label>
+            <label className="block mb-2 text-md font-medium">Deadline</label>
             <input
               type="date"
-              className="w-full bg-secondary border rounded p-2"
+              className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
               value={deadline}
               onChange={(e) => setDeadline(e.target.value)}
               required
@@ -111,12 +111,19 @@ function GoalsForm({ closeModal, setGoals, editingGoal }) {
           </div>
         </div>
 
-        <div className="mt-6">
+        <div className="flex justify-end gap-4">
+          <button
+            onClick={closeModal}
+            className="px-5 py-2 rounded-full bg-sidebarHighlight text-white"
+          >
+            Cancel
+          </button>
+
           <button
             type="submit"
-            className="bg-magenta text-white px-4 py-2 rounded w-full"
+            className="px-5 py-2 rounded-full bg-white text-black "
           >
-            Save Goal
+            Save
           </button>
         </div>
       </div>

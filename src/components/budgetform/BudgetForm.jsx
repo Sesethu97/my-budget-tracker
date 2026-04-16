@@ -90,29 +90,35 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
   };
 
   return (
-    <div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/2 backdrop-blur-none">
       <form
         onSubmit={handleSubmit}
-        className="max-w-lg w-125 max-h-[90vh] overflow-y-auto rounded-md p-6 shadow-2xl bg-sidebarColor text-white relative"
+        className="relative w-105 max-h-[85vh] overflow-y-auto rounded-2xl bg-sidebarColor p-6 shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-white/10 text-white"
       >
         <button
           type="button"
           onClick={closeModal}
-          className="absolute top-2 right-3 text-white text-lg"
+          className="absolute top-4 right-4 text-gray-400 hover:text-white text-lg"
         >
           ✕
         </button>
-
-        <h2 className="text-center font-bold mb-6">Monthly Budget</h2>
+        <div className=" gap-3 mb-8">
+          <div>
+            <h1 className="text-xl font-semibold">Monthly Budget</h1>
+            <p className="text-xs text-subText">
+              Create your monthly saving budgets
+            </p>
+          </div>
+        </div>
 
         <div className="space-y-4">
           <div>
-            <label className="block mb-2 text-sm font-medium">
+            <label className="block mb-2 text-md font-medium">
               Budget Name
             </label>
             <input
               type="text"
-              className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
+              className="w-full mt-1 p-3 rounded-lg bg-subText/50 border text-mainText border-mainText focus:outline-none"
               value={budgetName}
               onChange={(e) => setBudgetName(e.target.value)}
             />
@@ -120,20 +126,20 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
 
           <div className="flex gap-3">
             <div>
-              <label className="block mb-2 text-sm font-medium">Income</label>
+              <label className="block mb-2 text-md font-medium">Income</label>
               <input
                 type="number"
-                className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
+                className="w-full mt-1 p-3 rounded-lg bg-subText/50 border text-mainText border-mainText focus:outline-none"
                 value={income}
                 onChange={(e) => setIncome(e.target.value)}
               />
             </div>
 
             <div>
-              <label className="block mb-2 text-sm font-medium">Month</label>
+              <label className="block mb-2 text-md font-medium">Month</label>
               <input
                 type="month"
-                className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
+                className="w-full mt-1 p-3 rounded-lg bg-subText/50 border text-mainText border-mainText focus:outline-none"
                 value={month}
                 onChange={(e) => setMonth(e.target.value)}
               />
@@ -152,7 +158,7 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
                   onChange={(e) =>
                     handleChange(index, "category", e.target.value)
                   }
-                  className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
+                  className="w-full mt-1 p-3 rounded-lg bg-subText/50 border text-mainText border-mainText focus:outline-none"
                 >
                   <option value="">Select Category</option>
                   {preset.map((cat, i) => (
@@ -169,7 +175,7 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
                   onChange={(e) =>
                     handleChange(index, "amount", e.target.value)
                   }
-                  className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
+                  className="w-full mt-1 p-3 rounded-lg bg-subText/50 border text-mainText border-mainText focus:outline-none"
                 />
               </div>
             </div>
@@ -183,17 +189,17 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
             + Add Category
           </button>
         </div>
-        <div className="flex justify-end gap-4">
+        <div className="mt-5 flex justify-end gap-4">
           <button
             onClick={closeModal}
-            className="px-5 py-2 rounded-full bg-sidebarHighlight text-white"
+            className="px-5 py-2 rounded-full bg-white text-mainText"
           >
             Cancel
           </button>
 
           <button
             type="submit"
-            className="px-5 py-2 rounded-full bg-white text-black "
+            className="px-5 py-2 rounded-full bg-sidebarHighlight text-white "
           >
             Save
           </button>

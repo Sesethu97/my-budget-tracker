@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import GoalsForm from "../../components/goalsform/GoalsForm";
 import MonthPicker from "../../components/monthPicker/monthPicker";
 import goalsLogo from "../../assets/goalsLogo.png";
+import { useNavigate } from "react-router-dom";
 
 function Goals() {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
@@ -15,10 +16,11 @@ function Goals() {
     }
   }, []);
 
-  const handleOpenGoals = () => {
+  const handleOpenGoals = (e) => {
+    e.preventDefault();
+    console.log("CLICKED");
     setOpenGoals(true);
   };
-
   const handleDelete = (id) => {
     const existingGoals = JSON.parse(localStorage.getItem("goals")) || [];
 
@@ -66,10 +68,11 @@ function Goals() {
           <p className="pb-4"> You don’t have any goals yet</p>
 
           <button
+            type="button"
             className="pt-2 p-2 text-white border bg-sidebarHighlight border-mainText rounded-full shadow-md hover:scale-105 transition"
             onClick={handleOpenGoals}
           >
-            + Set New Goals
+            + Add New Goal
           </button>
         </div>
       ) : (

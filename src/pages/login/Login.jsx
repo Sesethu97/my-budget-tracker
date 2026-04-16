@@ -1,12 +1,14 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import loginlogo from "../../assets/loginLogo.png";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function Login({ setUsername, setEmail }) {
+function Login({ setUsername, setEmail: setUserEmail }) {
   const [password, setPassword] = useState("");
-  const [email, setEmailInput] = useState("");
+  const [email, setEmail] = useState("");
+
   const navigate = useNavigate();
-  const [isChecked, setIsChecked] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,11 +20,16 @@ function Login({ setUsername, setEmail }) {
       password === storedUser.password
     ) {
       setUsername(storedUser.username);
-      setEmail(storedUser.email);
+      setUserEmail(storedUser.email);
 
       navigate("/dashboard");
     } else {
-      alert("Invalid login details");
+      toast.error("Invalid login details");
+    }
+
+    if (!storedUser) {
+      toast.error("No account found. Please sign up.");
+      return;
     }
   };
   return (
@@ -32,59 +39,39 @@ function Login({ setUsername, setEmail }) {
           <form className="text-white" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div className="flex flex-col items-center justify-center text-center">
-                <h1 className="text-white text-2xl font-bold">Sign in</h1>
-                <p className="mt-2 text-sm text-subText">Welcome to BugetPal</p>
+                <h1 className="text-white text-3xl font-bold">Sign in</h1>
+                <p className="mt-2 text-md text-subText">Welcome to BugetPal</p>
               </div>
 
               <div>
-                <label className="block mb-2 text-sm font-medium">Email</label>
+                <label className="block mb-2 text-md font-medium">Email</label>
                 <input
                   type="email"
                   value={email}
-                  onChange={(e) => setEmailInput(e.target.value)}
-                  className="w-full p-3 rounded-full bg-subText/50 border border-mainText focus:outline-none"
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full p-3 rounded-full text-white bg-subText/50 border border-mainText focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block mb-2 text-sm font-medium">
+                <label className="block mb-2 text-md font-medium">
                   Password
                 </label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full p-3 rounded-full bg-subText/50 border border-mainText focus:outline-none"
+                  className="w-full p-3 rounded-full text-white bg-subText/50 border border-mainText focus:outline-none"
                 />
-              </div>
-
-              <div className="flex items-center">
-                <input
-                  id="default-checkbox"
-                  type="checkbox"
-                  checked={isChecked}
-                  onChange={(e) => setIsChecked(e.target.checked)}
-                  className="w-4 h-4 rounded border-gray-300"
-                />
-                <label
-                  htmlFor="default-checkbox"
-                  className="ms-2 text-sm text-white"
-                >
-                  Accept the terms and conditions
-                </label>
               </div>
 
               <button
                 type="submit"
-                disabled={!isChecked}
-                className={`px-5 py-2 w-full rounded-full font-bold transition-opacity ${
-                  isChecked
-                    ? "bg-white text-black cursor-pointer"
-                    : "bg-gray-400 text-white cursor-not-allowed opacity-50"
-                }`}
+                className="px-5 py-2 w-full rounded-full font-bold transition-opacity bg-white text-black cursor-pointer border border-gray-300 bg-white"
               >
                 Sign in
               </button>
+              <ToastContainer />
             </div>
           </form>
 

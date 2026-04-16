@@ -5,3 +5,27 @@ body {
   font-family: "Inter", sans-serif;
   background-color: #242238;
 }
+/* Month grid layout */
+.react-datepicker__month-wrapper {
+  @apply grid grid-cols-3 gap-2;
+}
+
+.react-datepicker__month-text {
+  @apply flex items-center justify-center py-2 rounded-lg cursor-pointer transition;
+}
+
+.react-datepicker__month-text:hover {
+  @apply bg-gray-100;
+}
+
+.react-datepicker__month--selected {
+  @apply bg-[#1a182e] text-white;
+}
+
+.react-datepicker {
+  @apply border-none shadow-none;
+}
+
+.react-datepicker__header {
+  @apply bg-transparent border-none;
+}

@@ -1,6 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import loginlogo from "../../assets/loginLogo.png";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -19,7 +21,7 @@ function Signup() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
     const newUser = {
@@ -30,9 +32,10 @@ function Signup() {
 
     localStorage.setItem("user", JSON.stringify(newUser));
 
-    alert("Account created successfully!");
-
-    navigate("/");
+    toast.success("Account created successfully!");
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
   };
 
   return (
@@ -42,32 +45,32 @@ function Signup() {
           <form className="text-white" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div className="flex flex-col items-center justify-center text-center">
-                <h1 className="text-white text-2xl font-bold">
+                <h1 className="text-white text-3xl font-bold">
                   Welcome to BudetPal
                 </h1>
-                <p className="mt-2 text-sm text-subText">
+                <p className="mt-2 text-md text-subText">
                   Create your account and start budgeting
                 </p>
               </div>
 
               <div>
-                <label className="block mb-2 text-sm font-medium">
+                <label className="block mb-2 text-md font-medium">
                   Username
                 </label>
                 <input
                   type="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full p-3 rounded-full bg-subText/50 border border-mainText focus:outline-none"
+                  className="w-full p-3 rounded-full text-white bg-subText/50 border border-mainText focus:outline-none"
                 />
               </div>
               <div>
-                <label className="block mb-2 text-sm font-medium">Email</label>
+                <label className="block mb-2 text-md font-medium">Email</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-3 rounded-full bg-subText/50 border border-mainText focus:outline-none"
+                  className="w-full p-3 rounded-full text-white bg-subText/50 border border-mainText focus:outline-none"
                 />
               </div>
 
@@ -79,7 +82,7 @@ function Signup() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full p-3 rounded-full bg-subText/50 border border-mainText focus:outline-none"
+                  className="w-full p-3 rounded-full text-white bg-subText/50 border border-mainText focus:outline-none"
                 />
               </div>
               <div>
@@ -90,7 +93,7 @@ function Signup() {
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full p-3 rounded-full bg-subText/50 border border-mainText focus:outline-none"
+                  className="w-full p-3 rounded-full text-white bg-subText/50 border border-mainText focus:outline-none"
                 />
               </div>
 
@@ -100,7 +103,7 @@ function Signup() {
                   type="checkbox"
                   checked={isChecked}
                   onChange={(e) => setIsChecked(e.target.checked)}
-                  className="w-4 h-4 rounded border-gray-300"
+                  className="w-4 h-4 rounded border-subText/50"
                 />
                 <label
                   htmlFor="default-checkbox"
@@ -115,12 +118,13 @@ function Signup() {
                 disabled={!isChecked}
                 className={`px-5 py-2 w-full rounded-full font-bold transition-opacity ${
                   isChecked
-                    ? "bg-white text-black cursor-pointer"
-                    : "bg-gray-400 text-white cursor-not-allowed opacity-50"
+                    ? "bg-white text-black cursor-pointer border border-gray-300 hover:bg-gray-100"
+                    : "bg-subText/50 text-white cursor-not-allowed opacity-50"
                 }`}
               >
                 Sign up
               </button>
+              <ToastContainer />
             </div>
           </form>
 

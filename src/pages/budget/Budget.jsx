@@ -12,16 +12,31 @@ function Budget() {
   const [openAllocate, setOpenAllocate] = useState(false);
   const [goals, setGoals] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [openMenuId, setOpenMenuId] = useState(null);
+
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
 
   const filteredBudgets = budgets.filter(
     (b) => b.month === selectedMonth.toISOString().slice(0, 7),
   );
+
   useEffect(() => {
     const savedGoals = localStorage.getItem("goals");
-    if (savedGoals) {
-      setGoals(JSON.parse(savedGoals));
-    }
+    if (savedGoals) setGoals(JSON.parse(savedGoals));
   }, []);
+
+  useEffect(() => {
+    const savedBudgets = localStorage.getItem("budgets");
+    if (savedBudgets) setBudgets(JSON.parse(savedBudgets));
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = () => setOpenMenuId(null);
+    if (openMenuId) {
+      document.addEventListener("click", handleClickOutside);
+    }
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [openMenuId]);
 
   const handleAllocate = (budget) => {
     setSelectedBudget(budget);
@@ -33,184 +48,193 @@ function Budget() {
     setOpenBudget(true);
   };
 
-  useEffect(() => {
-    const savedBudgets = localStorage.getItem("budgets");
-    if (savedBudgets) {
-      setBudgets(JSON.parse(savedBudgets));
-    }
-  }, []);
-
   const toggleBudgetSelection = (id) => {
-    if (selectedBudgets.includes(id)) {
-      setSelectedBudgets(selectedBudgets.filter((bid) => bid !== id));
-    } else {
-      setSelectedBudgets([...selectedBudgets, id]);
-    }
+    setSelectedBudgets((prev) =>
+      prev.includes(id) ? prev.filter((bid) => bid !== id) : [...prev, id],
+    );
   };
 
   const allSelected =
     budgets.length > 0 && selectedBudgets.length === budgets.length;
+
   const toggleSelectAll = () => {
-    if (allSelected) {
-      setSelectedBudgets([]);
-    } else {
-      setSelectedBudgets(budgets.map((b) => b.id));
-    }
+    setSelectedBudgets(allSelected ? [] : budgets.map((b) => b.id));
   };
 
   const deleteSelectedBudgets = () => {
-    setBudgets((prevBudgets) => {
-      const remaining = prevBudgets.filter(
-        (b) => !selectedBudgets.includes(b.id),
-      );
-
+    setBudgets((prev) => {
+      const remaining = prev.filter((b) => !selectedBudgets.includes(b.id));
       localStorage.setItem("budgets", JSON.stringify(remaining));
       return remaining;
     });
-
     setSelectedBudgets([]);
   };
-  return (
-    <main className=" p-6  text-white">
-      <h1 className="text-2xl font-bold">Budget</h1>
-      <p className="mt-4 text-sm text-subText">
-        {" "}
-        Create and manage your monthly budgets
-      </p>
 
-      <div className="mt-4">
-        <div className="py-4 flex items-center">
-          {selectedBudgets.length > 0 && (
-            <button
-              onClick={deleteSelectedBudgets}
-              className="bg-mainText text-white px-4 py-2 rounded-full"
-            >
-              Delete ({selectedBudgets.length})
-            </button>
-          )}
-          {budgets.length === 0 ? (
-            ""
-          ) : (
-            <button
-              onClick={() => setOpenBudget(true)}
-              className="ml-auto p-2 text-white border bg-sidebarHighlight border-mainText rounded-full shadow-md hover:scale-105 transition"
-            >
-              + Create Budget
-            </button>
-          )}
+  return (
+    <main className="max-w-7xl mx-auto py-8 text-white">
+      <div className="flex items-center justify-between mb-6">
+        <div className="mb-8">
+          <h1 className="text-3xl font-semibold">Budget</h1>
+          <p className="text-sm text-subText">
+            Create and manage your monthly budgets
+          </p>
         </div>
 
-        <div className="  relative overflow-x-auto ">
-          {filteredBudgets.length === 0 ? (
-            <div className="text-center text-subText">
-              <img
-                src={budgetLogo}
-                className="opacity-20 mx-auto block w-140"
-              />
+        <button
+          onClick={() => setOpenBudget(true)}
+          className="bg-sidebarHighlight px-4 py-2 rounded-full shadow-md hover:scale-105 transition"
+        >
+          + Create Budget
+        </button>
+      </div>
 
-              <p className="pb-4">You haven't created any budgets yet</p>
+      {selectedBudgets.length > 0 && (
+        <div className="mb-4">
+          <button
+            onClick={deleteSelectedBudgets}
+            className="bg-red-500 px-4 py-2 rounded-lg"
+          >
+            Delete ({selectedBudgets.length})
+          </button>
+        </div>
+      )}
 
-              <button
-                className="pt-2 p-2 text-white border bg-sidebarHighlight border-mainText rounded-full shadow-md hover:scale-105 transition"
-                onClick={() => setOpenBudget(true)}
-              >
-                + Create Budget
-              </button>
-            </div>
-          ) : (
-            <table className="w-full text-sm text-left text-body rounded-md overflow-hidden">
-              <thead className="bg-mainText text-subText uppercase text-xs tracking-wider">
-                <tr>
-                  <th className="px-6 py-3 font-bold">
+      {filteredBudgets.length === 0 ? (
+        <div className="text-center text-subText mt-20">
+          <img src={budgetLogo} className="opacity-20 mx-auto block w-64" />
+          <p className="mt-4">You haven't created any budgets yet</p>
+
+          <button
+            className="mt-4 bg-sidebarHighlight px-4 py-2 rounded-full"
+            onClick={() => setOpenBudget(true)}
+          >
+            + Create Budget
+          </button>
+        </div>
+      ) : (
+        <div className="bg-mainText/30 rounded-xl p-4 shadow-lg">
+          <table className="w-full text-sm text-left">
+            <thead className="text-subText uppercase text-xs tracking-wider border-b border-white/10">
+              <tr>
+                <th className="px-2 py-2 text-center">
+                  <input
+                    type="checkbox"
+                    checked={allSelected}
+                    onChange={toggleSelectAll}
+                  />
+                </th>
+                <th className="px-2 py-2 ">Budget Name</th>
+                <th className="px-2 py-2 ">Month</th>
+                <th className="px-2 py-2 ">Income</th>
+                <th className="px-2 py-2 ">Savings</th>
+                <th className="px-2 py-2 ">Progress</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody className="divide-y divide-default text-subText">
+              {budgets.map((budget, index) => (
+                <tr
+                  key={budget.id}
+                  className={`transition ${
+                    index % 2 === 0 ? "bg-mainText/40" : "bg-mainText/50"
+                  } hover:bg-mainText/60`}
+                >
+                  <td className="px-2 py-2 text-center">
                     <input
                       type="checkbox"
-                      className="h-4 w-4 text-sidebarHighlight focus:ring-sidebarHighlight border-mainText rounded"
-                      checked={allSelected}
-                      onChange={toggleSelectAll}
+                      checked={selectedBudgets.includes(budget.id)}
+                      onChange={() => toggleBudgetSelection(budget.id)}
                     />
-                  </th>
-                  <th className="px-6 py-3 font-bold">Budget Name</th>
-                  <th className="px-6 py-3 font-bold">Month</th>
-                  <th className="px-6 py-3 font-bold">Income</th>
-                  <th className="px-6 py-3 font-bold">Savings</th>
-                  <th className="px-6 py-3 font-bold">Progress</th>
-                  <th className="px-6 py-3 font-bold"></th>
-                  <th className="px-6 py-3 font-bold"></th>
-                </tr>
-              </thead>
+                  </td>
 
-              <tbody className="divide-y divide-default rounded-md overflow-hidden">
-                {budgets.map((budget, index) => (
-                  <tr
-                    key={budget.id}
-                    className={`transition ${
-                      index % 2 === 0 ? "bg-mainText/40" : "bg-mainText/45"
-                    } hover:bg-mainText/50`}
-                  >
-                    <td className="px-6 py-3 font-bold">
-                      <input
-                        type="checkbox"
-                        className="h-4 w-4 text-sidebarHighlight focus:ring-sidebarHighlight border-mainText rounded"
-                        checked={selectedBudgets.includes(budget.id)}
-                        onChange={() => toggleBudgetSelection(budget.id)}
-                      />
-                    </td>
-                    <th className="px-6 py-4 text-subText font-medium whitespace-nowrap">
-                      {budget.name}
-                    </th>
-                    <td className="px-6 py-4 text-subText">{budget.month}</td>
-                    <td className="px-6 py-4 text-subText">{budget.income}</td>
-                    <td className="px-6 py-4 text-subText">{budget.savings}</td>
-                    <td className="px-6 py-4">
-                      <div className="w-full bg-neutral-700 rounded-full h-5 relative overflow-hidden">
-                        <div
-                          className="bg-sidebarHighlight h-full rounded-full flex items-center px-2"
-                          style={{
-                            width: `${
-                              budget.income
-                                ? (budget.savings / budget.income) * 100
-                                : 0
-                            }%`,
-                          }}
-                        >
-                          <span className="text-xs text-white font-medium">
-                            {budget.income
-                              ? Math.round(
-                                  (budget.savings / budget.income) * 100,
-                                )
-                              : 0}
-                            %
-                          </span>
-                        </div>
+                  <td className="px-2 py-2 text-subText">{budget.name}</td>
+                  <td className="px-2 py-2 text-subText">{budget.month}</td>
+                  <td className="px-2 py-2 text-subText">{budget.income}</td>
+                  <td className="px-2 py-2 text-subText">{budget.savings}</td>
+
+                  <td className="px-2 py-2">
+                    <div className="w-full bg-subText rounded-full h-5 overflow-hidden">
+                      <div
+                        className="bg-sidebarHighlight h-full flex items-center px-2"
+                        style={{
+                          width: `${
+                            budget.income
+                              ? (budget.savings / budget.income) * 100
+                              : 0
+                          }%`,
+                        }}
+                      >
+                        <p className="text-xs mt-1 text-white">
+                          {budget.income
+                            ? Math.round((budget.savings / budget.income) * 100)
+                            : 0}
+                          %
+                        </p>
                       </div>
-                    </td>
-                    <td className="px-4 py-4">
-                      <button
-                        onClick={() => handleBudgetEdit(budget)}
-                        className="px-3 py-1.5 text-sm rounded-md text-subText border border-white/10 
-               hover:text-white hover:bg-mainText transition duration-200"
-                      >
-                        Edit
-                      </button>
-                    </td>
+                    </div>
+                  </td>
 
-                    <td className="px-4 py-4">
-                      <button
-                        onClick={() => handleAllocate(budget)}
-                        className="px-4 py-1.5 text-sm rounded-md bg-sidebarHighlight text-white 
-               hover:opacity-90 hover:scale-105 active:scale-95 
-               transition duration-200 shadow-md"
-                      >
-                        Allocate
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+                  <td className="px-2 py-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+
+                        const rect = e.currentTarget.getBoundingClientRect();
+
+                        setMenuPosition({
+                          top: rect.bottom + 8,
+                          left: rect.right - 120,
+                        });
+
+                        setOpenMenuId(
+                          openMenuId === budget.id ? null : budget.id,
+                        );
+                      }}
+                      className="p-1 rounded-full hover:bg-white/10"
+                    >
+                      ⋮
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </div>
+      )}
+
+      {openMenuId && (
+        <div
+          className="fixed w-32 bg-sidebarColor border border-white/10 rounded-lg shadow-lg z-50"
+          style={{
+            top: menuPosition.top,
+            left: menuPosition.left,
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            onClick={() => {
+              const budget = budgets.find((b) => b.id === openMenuId);
+              handleBudgetEdit(budget);
+              setOpenMenuId(null);
+            }}
+            className="w-full text-left px-4 py-2 hover:bg-white/10"
+          >
+            Edit
+          </button>
+          <hr className="text-subText"></hr>
+          <button
+            onClick={() => {
+              const budget = budgets.find((b) => b.id === openMenuId);
+              handleAllocate(budget);
+              setOpenMenuId(null);
+            }}
+            className="w-full text-left px-4 py-2 hover:bg-white/10"
+          >
+            Allocate
+          </button>
+        </div>
+      )}
 
       {openBudget && (
         <div className="fixed inset-0 flex items-center justify-center bg-backgroundColor/5 backdrop-blur-xs z-50">
@@ -224,6 +248,7 @@ function Budget() {
           />
         </div>
       )}
+
       {openAllocate && (
         <div className="fixed inset-0 flex items-center justify-center bg-backgroundColor/5 backdrop-blur-xs z-50">
           <AllocateSavings
