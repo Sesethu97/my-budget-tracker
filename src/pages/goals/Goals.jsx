@@ -69,7 +69,7 @@ function Goals() {
 
           <button
             type="button"
-            className="pt-2 p-2 text-white border bg-sidebarHighlight border-mainText rounded-full shadow-md hover:scale-105 transition"
+            className="pt-2 p-2 text-white border bg-purpleshade border-mainText rounded-full shadow-md hover:scale-105 transition"
             onClick={handleOpenGoals}
           >
             + Add New Goal

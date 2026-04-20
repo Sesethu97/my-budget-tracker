@@ -7,6 +7,12 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
   const [expenses, setExpenses] = useState([{ category: "", amount: "" }]);
   const [showMonthExists, setShowMonthExists] = useState(false);
 
+  const isValidForm =
+    budgetName.trim() !== "" &&
+    income.trim() !== "" &&
+    month.trim() !== "" &&
+    expenses.some((e) => e.category.trim() !== "" && e.amount !== "");
+
   useEffect(() => {
     if (editingBudget) {
       setBudgetName(editingBudget.name);
@@ -57,6 +63,9 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
 
       if (monthExists) {
         setShowMonthExists(true);
+        setTimeout(() => {
+          navigate("/Budget");
+        }, 1000);
         return;
       }
     }
@@ -199,7 +208,12 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
 
           <button
             type="submit"
-            className="px-5 py-2 rounded-full bg-sidebarHighlight text-white "
+            disabled={!isValidForm}
+            className={`px-5 py-2 rounded-full text-white ${
+              isValidForm
+                ? "bg-purpleshade hover:opacity-90"
+                : "bg-gray-500 cursor-not-allowed opacity-50"
+            }`}
           >
             Save
           </button>
@@ -207,16 +221,17 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
       </form>
 
       {showMonthExists && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white text-black rounded-lg p-6 w-80 shadow-lg">
-            <h3 className="text-lg font-bold mb-2">Duplicate Budget</h3>
-            <p>A budget for this month already exists.</p>
+        <div className="fixed inset-0 flex items-center justify-center  z-50">
+          <div className="relative bg-sidebarColor text-white rounded-lg p-6 w-80 shadow-lg">
             <button
               onClick={() => setShowMonthExists(false)}
-              className="mt-4 w-full bg-magenta text-white rounded py-2"
+              className="absolute top-2 right-3 text-gray-400 hover:text-white text-lg"
             >
-              Close
+              ✕
             </button>
+
+            <h1 className="text-lg font-bold mb-2">Duplicate Budget</h1>
+            <p>A budget for this month already exists.</p>
           </div>
         </div>
       )}

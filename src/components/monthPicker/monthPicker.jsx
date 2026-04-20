@@ -18,7 +18,7 @@ function MonthPicker({ selectedMonth, setSelectedMonth }) {
       </button>
 
       {open && (
-        <div className="absolute mt-2 z-50 w-2xl  bg-white rounded-xl shadow-lg p-2">
+        <div className="absolute right-0 mt-2 z-50 w-60 bg-white rounded-xl shadow-lg ">
           <DatePicker
             selected={selectedMonth}
             onChange={(date) => {

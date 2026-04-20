@@ -82,7 +82,7 @@ function Budget() {
 
         <button
           onClick={() => setOpenBudget(true)}
-          className="bg-sidebarHighlight px-4 py-2 rounded-full shadow-md hover:scale-105 transition"
+          className="bg-purpleshade px-4 py-2 rounded-full shadow-md hover:scale-105 transition"
         >
           + Create Budget
         </button>
@@ -105,7 +105,7 @@ function Budget() {
           <p className="mt-4">You haven't created any budgets yet</p>
 
           <button
-            className="mt-4 bg-sidebarHighlight px-4 py-2 rounded-full"
+            className="mt-4 bg-purpleshade px-4 py-2 rounded-full"
             onClick={() => setOpenBudget(true)}
           >
             + Create Budget
@@ -156,7 +156,7 @@ function Budget() {
                   <td className="px-2 py-2">
                     <div className="w-full bg-subText rounded-full h-5 overflow-hidden">
                       <div
-                        className="bg-sidebarHighlight h-full flex items-center px-2"
+                        className="bg-purpleshade h-full flex items-center px-2"
                         style={{
                           width: `${
                             budget.income

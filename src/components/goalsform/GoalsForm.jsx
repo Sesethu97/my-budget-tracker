@@ -114,7 +114,7 @@ function GoalsForm({ closeModal, setGoals, editingGoal }) {
         <div className="flex justify-end gap-4">
           <button
             onClick={closeModal}
-            className="px-5 py-2 rounded-full bg-sidebarHighlight text-white"
+            className="px-5 py-2 rounded-full bg-purpleshade text-white"
           >
             Cancel
           </button>

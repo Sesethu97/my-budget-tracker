@@ -13,9 +13,12 @@ import {
   Tooltip,
   ResponsiveContainer,
   CartesianGrid,
+  BarChart,
+  Bar,
 } from "recharts";
 import BudgetForm from "../../components/budgetform/BudgetForm";
 import { useNavigate, useNavigation } from "react-router-dom";
+import { ArrowOutwardRounded } from "@mui/icons-material";
 
 function Dashboard({ username }) {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
@@ -49,6 +52,13 @@ function Dashboard({ username }) {
   const currentMonthBudgets = budgets.filter(
     (budget) => budget.month === currentMonth,
   );
+  const isCurrentMonthEmpty = currentMonthBudgets.length === 0;
+
+  const today = new Date();
+  const isPastMonth =
+    selectedMonth.getFullYear() < today.getFullYear() ||
+    (selectedMonth.getFullYear() === today.getFullYear() &&
+      selectedMonth.getMonth() < today.getMonth());
 
   const totalIncome = currentMonthBudgets.reduce(
     (sum, budget) => sum + Number(budget.income),
@@ -184,7 +194,7 @@ function Dashboard({ username }) {
     "#AA98A9",
     "#702963",
     "#4B0082",
-    "#C3B1E1",
+    "#be93d4",
     "#E0B0FF",
     "#483248 ",
   ];
@@ -211,31 +221,32 @@ function Dashboard({ username }) {
           />
         </div>
       </div>
-      {budgets.length === 0 ? (
-        ""
-      ) : (
+      {!isCurrentMonthEmpty && (
         <div className="flex justify-end">
           <button
             onClick={() => setOpenBudget(true)}
-            className="ml-auto p-2 text-white border bg-sidebarHighlight border-mainText rounded-full shadow-md hover:scale-105 transition"
+            className="ml-auto p-2 text-white border bg-lilac border-mainText rounded-full shadow-md hover:scale-105 transition"
           >
             + Create Budget
           </button>
         </div>
       )}
-      {budgets.length === 0 ? (
-        <div className="text-center text-subText">
+      {isCurrentMonthEmpty ? (
+        <div className="text-center text-subText mt-10">
           <img src={dashbaordLogo} className="opacity-20 mx-auto block w-180" />
 
-          <p className="pb-4">You haven't created any budgets yet</p>
-          <div className="pb-6">
+          <p className="pb-4 text-lg font-medium">
+            No budget for{" "}
+            {selectedMonth.toLocaleString("default", { month: "long" })}
+          </p>
+          {!isPastMonth && (
             <button
-              className="p-2  text-white border bg-sidebarHighlight border-sidebarHighlight rounded-full shadow-md "
+              className="p-3 text-white bg-lilac rounded-full shadow-md hover:scale-105 transition"
               onClick={() => setOpenBudget(true)}
             >
-              + Create Budget
+              + Create New Budget
             </button>
-          </div>
+          )}
         </div>
       ) : (
         <div>
@@ -245,18 +256,21 @@ function Dashboard({ username }) {
                 onClick={() => navigate("/budget")}
                 className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition"
               >
-                <h5 className="text-md text-subText font-bold">
-                  Total Balance
-                </h5>
-                <p className="text-2xl font-extrabold text-subText text-header">
+                <div className="flex justify-between items-center w-full">
+                  <h5 className="text-md text-white font-bold">
+                    Total Balance
+                  </h5>
+                  <ArrowOutwardRounded className="text-lilac transition-transform duration-300 hover:scale-125" />
+                </div>
+                <p className="text-2xl font-extrabold text-white text-header">
                   R {totalBalance}
                 </p>
                 <span className="text-sm">
                   <span
                     className={`inline-block px-2 py-0.5 rounded-full border ${
                       balanceDifference >= 0
-                        ? "text-[#c3b1e1] border-[#c3b1e1]"
-                        : "text-[#7160d6] border-[#7160d6]"
+                        ? "text-green-600 border-green-600"
+                        : "text-red-800 border-red-800"
                     }`}
                   >
                     {balanceDifference >= 0 ? "↑" : "↓"} R{" "}
@@ -270,7 +284,7 @@ function Dashboard({ username }) {
                       <Area
                         type="monotone"
                         dataKey="balance"
-                        stroke={balanceDifference >= 0 ? "#c3b1e1" : "#8b008b"}
+                        stroke={balanceDifference >= 0 ? "#be93d4" : "#b65fcf"}
                         fillOpacity={0.1}
                       />
                     </AreaChart>
@@ -281,18 +295,21 @@ function Dashboard({ username }) {
                 onClick={() => navigate("/budget")}
                 className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition"
               >
-                <h5 className="text-md text-subText font-bold">
-                  Monthly Income
-                </h5>
-                <p className="text-2xl font-extrabold text-subText">
+                <div className="flex justify-between items-center w-full">
+                  <h5 className="text-md text-white font-bold">
+                    Monthly Income
+                  </h5>
+                  <ArrowOutwardRounded className="text-lilac transition-transform duration-300 hover:scale-125" />
+                </div>
+                <p className="text-2xl font-extrabold text-white">
                   R {totalIncome}
                 </p>
                 <span className="text-sm">
                   <span
                     className={`inline-block px-2 py-0.5 rounded-full border ${
                       incomeDifference >= 0
-                        ? "text-[#c3b1e1] border-[#c3b1e1]"
-                        : "text-[#7160d6] border-[#7160d6]"
+                        ? "text-green-600 border-green-600"
+                        : "text-red-800 border-red-800"
                     }`}
                   >
                     {incomeDifference >= 0 ? "↑" : "↓"} R{" "}
@@ -306,7 +323,7 @@ function Dashboard({ username }) {
                       <Area
                         type="monotone"
                         dataKey="income"
-                        stroke={incomeDifference >= 0 ? "#c3b1e1" : "#8b008b"}
+                        stroke={incomeDifference >= 0 ? "#be93d4" : "#b65fcf"}
                         fillOpacity={0.1}
                       />
                     </AreaChart>
@@ -317,18 +334,21 @@ function Dashboard({ username }) {
                 onClick={() => navigate("/budget")}
                 className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition"
               >
-                <h5 className="text-md text-subText font-bold">
-                  Monthly Expenses
-                </h5>
-                <p className="text-2xl font-extrabold text-subText">
+                <div className="flex justify-between items-center w-full">
+                  <h5 className="text-md text-white font-bold">
+                    Monthly Expenses
+                  </h5>
+                  <ArrowOutwardRounded className="text-lilac transition-transform duration-300 hover:scale-125" />
+                </div>
+                <p className="text-2xl font-extrabold text-white">
                   R {totalExpenses}
                 </p>
                 <span className="text-sm">
                   <span
                     className={`inline-block px-2 py-0.5 rounded-full border ${
                       expensesDifference >= 0
-                        ? "text-[#c3b1e1] border-[#c3b1e1]"
-                        : "text-[#7160d6] border-[#7160d6]"
+                        ? "text-green-600 border-green-600"
+                        : "text-red-800 border-red-800"
                     }`}
                   >
                     {expensesDifference >= 0 ? "↑" : "↓"} R{" "}
@@ -342,7 +362,7 @@ function Dashboard({ username }) {
                       <Area
                         type="monotone"
                         dataKey="expenses"
-                        stroke={expensesDifference >= 0 ? "#c3b1e1" : "#8b008b"}
+                        stroke={expensesDifference >= 0 ? "#be93d4" : "#b65fcf"}
                         fillOpacity={0.1}
                       />
                     </AreaChart>
@@ -353,16 +373,19 @@ function Dashboard({ username }) {
                 onClick={() => navigate("/budget")}
                 className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition"
               >
-                <h5 className="text-md text-subText font-bold">Saving Rate</h5>
-                <p className="text-2xl font-extrabold text-subText">
+                <div className="flex justify-between items-center w-full">
+                  <h5 className="text-md text-white font-bold">Saving Rate</h5>
+                  <ArrowOutwardRounded className="text-lilac transition-transform duration-300 hover:scale-125" />
+                </div>
+                <p className="text-2xl font-extrabold text-white">
                   {savingsRate}%
                 </p>
                 <span className="text-sm">
                   <span
                     className={`inline-block px-2 py-0.5 rounded-full border ${
                       savingsRateDifference >= 0
-                        ? "text-[#c3b1e1] border-[#c3b1e1]"
-                        : "text-[#7160d6] border-[#7160d6]"
+                        ? "text-green-600 border-green-600"
+                        : "text-red-800 border-red-800"
                     }`}
                   >
                     {savingsRateDifference >= 0 ? "↑" : "↓"}{" "}
@@ -387,7 +410,7 @@ function Dashboard({ username }) {
                         type="monotone"
                         dataKey="savingsRate"
                         stroke={
-                          savingsRateDifference >= 0 ? "#c3b1e1" : "#8b008b"
+                          savingsRateDifference >= 0 ? "#be93d4" : "#b65fcf"
                         }
                         fillOpacity={0.1}
                       />
@@ -402,91 +425,20 @@ function Dashboard({ username }) {
               <div className="col-span-2 bg-sidebarColor p-6 border border-default rounded-md shadow-xs">
                 <div className="flex justify-between items-center mb-4">
                   <div>
-                    <h5 className="text-2xl font-bold text-subText text-heading">
-                      R {totalIncome}
+                    <h5 className="text-md text-white font-bold">
+                      Discretionary income{" "}
                     </h5>
-                    <p className="text-subText text-sm">
-                      Monthly Income (Last 6 Months)
+                    <p className=" text-md font-bold text-subText">
+                      Last 6 months
                     </p>
-                  </div>
-                  <div
-                    className={`flex items-center px-2.5 py-0.5 font-medium text-center ${
-                      incomeDifference >= 0
-                        ? "text-white bg-sidebarHighlight/10 rounded"
-                        : "text-white bg-sidebarHighlight/10 rounded"
-                    }`}
-                  >
-                    <svg
-                      className="w-5 h-5 mr-1"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      {incomeDifference >= 0 ? (
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 6v13m0-13 4 4m-4-4-4 4"
-                        />
-                      ) : (
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 18V5m0 13-4-4m4 4 4-4"
-                        />
-                      )}
-                    </svg>
-                    {Math.abs(incomeDifference)}%
                   </div>
                 </div>
 
                 <div className="h-72">
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={chartData}>
-                      <defs>
-                        <linearGradient
-                          id="incomeColor"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="5%"
-                            stopColor="#8370fe"
-                            stopOpacity={0.4}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="#8370fe"
-                            stopOpacity={0}
-                          />
-                        </linearGradient>
-                        <linearGradient
-                          id="expenseColor"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="5%"
-                            stopColor="#beb6fa"
-                            stopOpacity={0.4}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="#beb6fa"
-                            stopOpacity={0}
-                          />
-                        </linearGradient>
-                      </defs>
+                    <BarChart data={chartData} barGap={6} barCategoryGap="20%">
+                      <CartesianGrid stroke="#2a2a2a" vertical={false} />
 
-                      <CartesianGrid strokeDasharray="3 3" />
                       <XAxis
                         dataKey="month"
                         tickFormatter={(m) =>
@@ -494,32 +446,45 @@ function Dashboard({ username }) {
                             month: "short",
                           })
                         }
+                        tick={{ fill: "#aaa", fontSize: 12 }}
+                        axisLine={false}
+                        tickLine={false}
                       />
-                      <YAxis />
-                      <Tooltip formatter={(value) => `R ${value}`} />
 
-                      <Area
-                        type="monotone"
+                      <YAxis
+                        tick={{ fill: "#aaa", fontSize: 12 }}
+                        axisLine={false}
+                        tickLine={false}
+                      />
+
+                      <Tooltip
+                        formatter={(value) => `R ${value}`}
+                        contentStyle={{
+                          backgroundColor: "#1f1f1f",
+                          border: "none",
+                          borderRadius: "8px",
+                        }}
+                      />
+
+                      <Bar
                         dataKey="income"
-                        stroke="#8b008b"
-                        fill="url(#incomeColor)"
-                        strokeWidth={2}
+                        fill="#5b6cff"
+                        radius={[8, 8, 0, 0]}
                       />
-                      <Area
-                        type="monotone"
+
+                      <Bar
                         dataKey="expenses"
-                        stroke="#c3b1e1"
-                        fill="url(#expenseColor)"
-                        strokeWidth={2}
+                        fill="#d16ba5"
+                        radius={[8, 8, 0, 0]}
                       />
-                    </AreaChart>
+                    </BarChart>
                   </ResponsiveContainer>
                 </div>
               </div>
               <div className="flex-1 bg-sidebarColor p-6 border border-default rounded-md shadow-xs ">
-                <h3 className="text-subText mb-4">
+                <h5 className="text-md text-white font-bold">
                   Monthly Expenses Breakdown
-                </h3>
+                </h5>
 
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
@@ -546,11 +511,10 @@ function Dashboard({ username }) {
               </div>
             </div>
           </div>
+
           <div className="bg-neutral-primary-soft w-full mt-2 p-6">
             <div className="bg-sidebarColor p-6 border border-default rounded-md shadow-xs">
-              <h5 className="text-md text-subText font-bold mb-4">
-                Saving Goals
-              </h5>
+              <h5 className="text-md text-white font-bold">Saving Goals</h5>
 
               {goals.length === 0 ? (
                 <p className="text-subText text-sm">
@@ -581,7 +545,7 @@ function Dashboard({ username }) {
                             className={`h-full rounded-full flex items-center px-2 ${
                               percentage >= 100
                                 ? "bg-green-500"
-                                : "bg-sidebarHighlight"
+                                : "bg-purpleshade"
                             }`}
                             style={{ width: `${percentage}%` }}
                           >

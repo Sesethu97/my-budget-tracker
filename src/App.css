@@ -5,12 +5,12 @@
   --color-subText: #6b7280;
   --color-logoGradient: linear-gradient(135deg, #8b008b, #2e1a47);
   --color-sidebarColor: #1a182e;
-  --color-sidebarHighlight: #8b008b;
+  --color-purpleshade: #8b008b;
   --color-backgroundColor: #242238;
   --color-gray: #d0cfd4;
   --color-lightgray: #eae9fa;
   --color-pinkshade: #f100f1;
-
+  --color-lilac: #b65fcf;
   --color-success: #22c55e;
   --color-danger: #ef4444;
   --color-action-500: oklch(0.623 0.214 259.815);

@@ -33,7 +33,7 @@ function Help() {
         <span className="text-sm py-2 px-2 border-2 rounded-lg">{email}</span>
         <button
           onClick={handleCopeEmail}
-          className="text-sm bg-sidebarColor hover:bg-sidebarHighlight py-2 px-2 rounded-lg ml-2 text-WHITE "
+          className="text-sm bg-sidebarColor hover:bg-purpleshade py-2 px-2 rounded-lg ml-2 text-WHITE "
         >
           {copyEmail ? "Copied" : "Copy"}
         </button>

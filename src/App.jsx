@@ -81,7 +81,7 @@ function App() {
             <h2 className=" text-white text-lg font-bold mb-6">Edit profile</h2>
 
             <div className="flex justify-center mb-6 relative">
-              <div className="w-32 h-32 rounded-full overflow-hidden bg-linear-to-r from-white to-sidebarHighlight flex items-center justify-center text-4xl font-semibold">
+              <div className="w-32 h-32 rounded-full overflow-hidden bg-linear-to-r from-purple-950 to-lilac flex items-center justify-center text-4xl font-semibold">
                 {profilePic ? (
                   <img
                     src={profilePic}
@@ -140,7 +140,7 @@ function App() {
 
               <button
                 onClick={handleSave}
-                className="px-5 py-2 rounded-full bg-sidebarHighlight text-white "
+                className="px-5 py-2 rounded-full bg-lilac text-white "
               >
                 Save
               </button>

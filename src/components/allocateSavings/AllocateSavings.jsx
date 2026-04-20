@@ -104,7 +104,7 @@ function AllocateSavings({ budget, closeModal }) {
 
               <button
                 onClick={handleSubmit}
-                className="flex-1 py-2 rounded-full bg-sidebarHighlight  text-white text-sm font-medium hover:opacity-90 transition"
+                className="flex-1 py-2 rounded-full bg-purpleshade  text-white text-sm font-medium hover:opacity-90 transition"
               >
                 Save Allocation
               </button>
@@ -118,7 +118,7 @@ function AllocateSavings({ budget, closeModal }) {
             <p className="text-sm text-subText mb-4">No savings goals yet</p>
 
             <button
-              className="px-5 py-2 rounded-full bg-sidebarHighlight  text-white text-sm font-medium hover:opacity-90 transition"
+              className="px-5 py-2 rounded-full bg-purpleshade  text-white text-sm font-medium hover:opacity-90 transition"
               onClick={() => navigation("/goals")}
             >
               + Create New Goal
