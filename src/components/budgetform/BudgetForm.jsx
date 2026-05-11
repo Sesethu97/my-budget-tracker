@@ -9,9 +9,10 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
 
   const isValidForm =
     budgetName.trim() !== "" &&
-    income.trim() !== "" &&
+    income !== "" &&
+    Number(income) > 0 &&
     month.trim() !== "" &&
-    expenses.some((e) => e.category.trim() !== "" && e.amount !== "");
+    expenses.some((e) => e.category.trim() !== "" && Number(e.amount) > 0);
 
   useEffect(() => {
     if (editingBudget) {

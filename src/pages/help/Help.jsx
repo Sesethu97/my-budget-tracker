@@ -16,8 +16,10 @@ function Help() {
 
   return (
     <main className=" p-6  text-white">
-      <h1 className="text-2xl font-bold">Frequently Asked Questions</h1>
-      <p className="mt-4 text-sm text-subText">
+      <h1 className="text-3xl font-bold pt-4 pl-2 text-white">
+        Frequently Asked Questions
+      </h1>
+      <p className="text-md text-subText pl-2 pb-4">
         {" "}
         Do you need help with something or do you have questions on some
         features?

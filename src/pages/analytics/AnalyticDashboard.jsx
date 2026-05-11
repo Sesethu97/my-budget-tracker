@@ -196,17 +196,19 @@ function AnalyticDashboard({ username }) {
   return (
     <main className="px-4 pt-6">
       <div className="flex justify-between items-center">
-        <div className="flex flex-col gap-1 pb-6 text-left">
+        <div className="flex flex-col gap-1 text-left">
           <h1 className="text-3xl font-bold pt-4 pl-2 text-white">Analytics</h1>
           <p className="text-md text-subText pl-2 pb-4">
             Overview of your finances
           </p>
         </div>
-
-        <div className="flex items-center gap-4">
-          <span className="pt-2 p-2 bg-sidebarColor text-white border border-subText rounded-full shadow-md hover:scale-105 transition">
+      </div>
+      <div className="flex items-center justify-between px-4 ">
+        <div className="flex items-center gap-0.5">
+          <span className="p-2 bg-sidebarColor text-white border border-subText rounded-full shadow-md hover:scale-105 transition">
             📅
           </span>
+
           <MonthPicker
             selectedMonth={selectedMonth}
             setSelectedMonth={setSelectedMonth}
@@ -381,6 +383,7 @@ function AnalyticDashboard({ username }) {
                         tick={{ fill: "#aaa", fontSize: 12 }}
                         axisLine={false}
                         tickLine={false}
+                        tickFormatter={(value) => `R ${value.toLocaleString()}`}
                       />
 
                       <Tooltip
@@ -498,7 +501,7 @@ function AnalyticDashboard({ username }) {
                         <stop
                           offset="5%"
                           stopColor="#beb6fa"
-                          stopOpacity={0.4}
+                          stopOpacity={0.8}
                         />
                         <stop
                           offset="95%"
@@ -508,7 +511,7 @@ function AnalyticDashboard({ username }) {
                       </linearGradient>
                     </defs>
 
-                    <CartesianGrid strokeDasharray="3 3" />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
 
                     <XAxis
                       dataKey="month"
@@ -519,16 +522,22 @@ function AnalyticDashboard({ username }) {
                       }
                     />
 
-                    <YAxis />
+                    <YAxis
+                      tickFormatter={(value) => `R ${value.toLocaleString()}`}
+                    />
 
                     <Tooltip formatter={(value) => `R ${value}`} />
+
+                    <Legend
+                      wrapperStyle={{ color: "#fff", fontSize: "12px" }}
+                    />
 
                     <Area
                       type="monotone"
                       dataKey="income"
                       stroke="#b65fcf"
                       fill="url(#incomeColor)"
-                      strokeWidth={2}
+                      strokeWidth={4}
                     />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -552,39 +561,41 @@ function AnalyticDashboard({ username }) {
                     const percentage = Math.min(Math.round(progress), 100);
 
                     return (
-                      <div key={goal.id} className="p-4 rounded-lg">
-                        <div className="flex justify-between items-center mb-2">
-                          <h3 className="text-subText font-semibold">
-                            {goal.name}
-                          </h3>
+                      <div className="rounded-md shadow-xs bg-backgroundColor mt-4">
+                        <div key={goal.id} className="p-4 rounded-lg">
+                          <div className="flex justify-between items-center mb-2">
+                            <h3 className="text-white font-semibold">
+                              {goal.name}
+                            </h3>
 
-                          <span className="text-sm text-subText">
-                            R{goal.saved} / R{goal.target}
-                          </span>
-                        </div>
-
-                        <div className="w-full bg-neutral-700 rounded-full h-5 relative overflow-hidden">
-                          <div
-                            className={`h-full rounded-full flex items-center px-2 ${
-                              percentage >= 100
-                                ? "bg-green-500"
-                                : "bg-purpleshade"
-                            }`}
-                            style={{ width: `${percentage}%` }}
-                          >
-                            {percentage > 10 && (
-                              <span className="text-xs text-white font-medium">
-                                {percentage}%
-                              </span>
-                            )}
+                            <span className="text-sm text-subText">
+                              R{goal.saved} / R{goal.target}
+                            </span>
                           </div>
-                        </div>
 
-                        {percentage >= 100 && (
-                          <p className="text-green-400 text-xs mt-1">
-                            Goal reached 🎉
-                          </p>
-                        )}
+                          <div className="w-full bg-neutral-700 rounded-full h-5 relative overflow-hidden">
+                            <div
+                              className={`h-full rounded-full flex items-center px-2 ${
+                                percentage >= 100
+                                  ? "bg-green-500"
+                                  : "bg-purpleshade"
+                              }`}
+                              style={{ width: `${percentage}%` }}
+                            >
+                              {percentage > 10 && (
+                                <span className="text-xs text-white font-medium">
+                                  {percentage}%
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                          {percentage >= 100 && (
+                            <p className="text-green-400 text-xs mt-1">
+                              Goal reached 🎉
+                            </p>
+                          )}
+                        </div>
                       </div>
                     );
                   })}

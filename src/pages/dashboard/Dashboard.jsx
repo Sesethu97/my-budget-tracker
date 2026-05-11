@@ -25,6 +25,7 @@ function Dashboard({ username }) {
   const [budgets, setBudgets] = useState([]);
   const [openBudget, setOpenBudget] = useState(false);
   const navigate = useNavigate();
+  const [showAllGoals, setShowAllGoals] = useState(false);
 
   const [goals, setGoals] = useState([]);
 
@@ -201,38 +202,40 @@ function Dashboard({ username }) {
 
   return (
     <main className="px-4 pt-6">
-      <div className="flex justify-between items-center">
-        <div className="flex flex-col gap-1 pb-6 text-left">
+      <div>
+        <div className="flex flex-col gap-1 pb-4 text-left">
           <h1 className="text-3xl font-bold pt-4 pl-2 text-white">
             Welcome back {username}!
           </h1>
-          <p className="text-md text-subText pl-2 pb-4">
+          <p className="text-md text-subText pl-2 ">
             Its time to manage your finances
           </p>
         </div>
+        <div className="flex items-center justify-between px-4 ">
+          <div className="flex items-center gap-0.5">
+            <span className="p-2 bg-sidebarColor text-white border border-subText rounded-full shadow-md hover:scale-105 transition">
+              📅
+            </span>
 
-        <div className="flex items-center gap-4">
-          <span className="pt-2 p-2 bg-sidebarColor text-white border border-subText rounded-full shadow-md hover:scale-105 transition">
-            📅
-          </span>
-          <MonthPicker
-            selectedMonth={selectedMonth}
-            setSelectedMonth={setSelectedMonth}
-          />
-        </div>
+            <MonthPicker
+              selectedMonth={selectedMonth}
+              setSelectedMonth={setSelectedMonth}
+            />
+          </div>
+
+          {!isCurrentMonthEmpty && (
+            <button
+              onClick={() => setOpenBudget(true)}
+              className="p-2 text-white border bg-lilac border-mainText rounded-full shadow-md hover:scale-105 transition"
+            >
+              + Create Budget
+            </button>
+          )}
+        </div>{" "}
       </div>
-      {!isCurrentMonthEmpty && (
-        <div className="flex justify-end">
-          <button
-            onClick={() => setOpenBudget(true)}
-            className="ml-auto p-2 text-white border bg-lilac border-mainText rounded-full shadow-md hover:scale-105 transition"
-          >
-            + Create Budget
-          </button>
-        </div>
-      )}
+
       {isCurrentMonthEmpty ? (
-        <div className="text-center text-subText mt-10">
+        <div className="text-center text-subText mt-8">
           <img src={dashbaordLogo} className="opacity-20 mx-auto block w-180" />
 
           <p className="pb-4 text-lg font-medium">
@@ -434,7 +437,7 @@ function Dashboard({ username }) {
                   </div>
                 </div>
 
-                <div className="h-72">
+                <div className="h-54">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={chartData} barGap={6} barCategoryGap="20%">
                       <CartesianGrid stroke="#2a2a2a" vertical={false} />
@@ -455,6 +458,7 @@ function Dashboard({ username }) {
                         tick={{ fill: "#aaa", fontSize: 12 }}
                         axisLine={false}
                         tickLine={false}
+                        tickFormatter={(value) => `R ${value.toLocaleString()}`}
                       />
 
                       <Tooltip
@@ -481,33 +485,52 @@ function Dashboard({ username }) {
                   </ResponsiveContainer>
                 </div>
               </div>
-              <div className="flex-1 bg-sidebarColor p-6 border border-default rounded-md shadow-xs ">
+              <div className="flex-1 bg-sidebarColor p-2 border border-default rounded-md shadow-xs ">
                 <h5 className="text-md text-white font-bold">
                   Monthly Expenses Breakdown
                 </h5>
 
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={pieData}
-                      dataKey="value"
-                      nameKey="name"
-                      innerRadius={70}
-                      outerRadius={100}
-                      label
-                    >
-                      {pieData.map((entry, index) => (
-                        <Cell
-                          key={index}
-                          fill={COLORS[index % COLORS.length]}
-                        />
-                      ))}
-                    </Pie>
+                <div className="flex items-center gap-4">
+                  <ResponsiveContainer width="60%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        dataKey="value"
+                        nameKey="name"
+                        innerRadius={70}
+                        outerRadius={100}
+                      >
+                        {pieData.map((entry, index) => (
+                          <Cell
+                            key={index}
+                            fill={COLORS[index % COLORS.length]}
+                          />
+                        ))}
+                      </Pie>
 
-                    <Tooltip formatter={(value) => `R ${value}`} />
-                    <Legend />
-                  </PieChart>
-                </ResponsiveContainer>
+                      <Tooltip formatter={(value) => `R ${value}`} />
+                    </PieChart>
+                  </ResponsiveContainer>
+
+                  <div className="flex flex-col gap-3 text-sm text-white">
+                    {pieData.map((item, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <span
+                          style={{
+                            backgroundColor: COLORS[index % COLORS.length],
+                            width: 10,
+                            height: 10,
+                            borderRadius: 2,
+                            display: "inline-block",
+                          }}
+                        />
+                        <span>
+                          {item.name} — R {item.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -522,49 +545,55 @@ function Dashboard({ username }) {
                 </p>
               ) : (
                 <div className="space-y-4">
-                  {goals.map((goal) => {
+                  {(showAllGoals ? goals : goals.slice(0, 3)).map((goal) => {
                     const progress =
                       (Number(goal.saved) / Number(goal.target)) * 100;
 
                     const percentage = Math.min(Math.round(progress), 100);
 
                     return (
-                      <div key={goal.id} className="p-4 rounded-lg">
-                        <div className="flex justify-between items-center mb-2">
-                          <h3 className="text-subText font-semibold">
-                            {goal.name}
-                          </h3>
+                      <div className="rounded-md shadow-xs bg-backgroundColor mt-4">
+                        <div key={goal.id} className="p-4 rounded-lg">
+                          <div className="flex justify-between items-center mb-2">
+                            <h3 className="text-white  font-semibold">
+                              {goal.name}
+                            </h3>
 
-                          <span className="text-sm text-subText">
-                            R{goal.saved} / R{goal.target}
-                          </span>
-                        </div>
-
-                        <div className="w-full bg-neutral-700 rounded-full h-5 relative overflow-hidden">
-                          <div
-                            className={`h-full rounded-full flex items-center px-2 ${
-                              percentage >= 100
-                                ? "bg-green-500"
-                                : "bg-purpleshade"
-                            }`}
-                            style={{ width: `${percentage}%` }}
-                          >
-                            {percentage > 10 && (
-                              <span className="text-xs text-white font-medium">
-                                {percentage}%
-                              </span>
-                            )}
+                            <span className="text-sm text-subText">
+                              R{goal.saved} / R{goal.target}
+                            </span>
                           </div>
-                        </div>
 
-                        {percentage >= 100 && (
-                          <p className="text-green-400 text-xs mt-1">
-                            Goal reached 🎉
-                          </p>
-                        )}
+                          <div className="w-full bg-neutral-700 rounded-full h-5 relative overflow-hidden">
+                            <div
+                              className={
+                                "h-full rounded-full flex items-center px-2 bg-purpleshade"
+                              }
+                              style={{ width: `${percentage}%` }}
+                            >
+                              <p className="text-xs mt-1 text-white">
+                                {percentage}%
+                              </p>
+                            </div>
+                          </div>
+
+                          {percentage >= 100 && (
+                            <p className="text-green-400 text-xs mt-1">
+                              Goal reached 🎉
+                            </p>
+                          )}
+                        </div>
                       </div>
                     );
                   })}
+                  {goals.length > 3 && (
+                    <button
+                      onClick={() => setShowAllGoals(!showAllGoals)}
+                      className="text-md text-purpleshade mt-2"
+                    >
+                      {showAllGoals ? "See less" : "See more"}
+                    </button>
+                  )}
                 </div>
               )}
             </div>

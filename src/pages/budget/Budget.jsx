@@ -73,13 +73,14 @@ function Budget() {
   return (
     <main className="max-w-7xl mx-auto py-8 text-white">
       <div className="flex items-center justify-between mb-6">
-        <div className="mb-8">
-          <h1 className="text-3xl font-semibold">Budget</h1>
-          <p className="text-sm text-subText">
+        <div>
+          <h1 className="text-3xl font-bold pt-4 pl-2 text-white">Budget</h1>
+          <p className="text-md text-subText pl-2 ">
             Create and manage your monthly budgets
           </p>
         </div>
-
+      </div>
+      <div className="flex justify-end mb-3">
         <button
           onClick={() => setOpenBudget(true)}
           className="bg-purpleshade px-4 py-2 rounded-full shadow-md hover:scale-105 transition"

@@ -95,7 +95,6 @@ function GoalsForm({ closeModal, setGoals, editingGoal }) {
               className="w-full mt-1 p-3 rounded-lg bg-subText/50 border border-mainText focus:outline-none"
               value={saved}
               onChange={(e) => setSaved(e.target.value)}
-              required
             />
           </div>
 

@@ -11,11 +11,7 @@ const faqData = [
     answer:
       "Yes, You can assign categories like Food, Transport, Rent, or Entertainment to each expense. This helps you see where your money is going.",
   },
-  {
-    question: "Can I view reports or summaries?",
-    answer:
-      "Yes, Absolutely. The app provides weekly and monthly summaries, showing total spending per category and your remaining budget. You can also view charts for a visual overview.",
-  },
+
   {
     question: "How do I change my account mail?",
     answer: "Go to Settings → Account → Change email.",

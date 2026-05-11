@@ -48,7 +48,8 @@ function App() {
   });
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
+      {" "}
       {showSidenav && (
         <Sidenav
           openPopup={() => setOpenPopUp(true)}
@@ -57,7 +58,7 @@ function App() {
           profilePic={profilePic}
         />
       )}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto h-screen min-h-0">
         <Routes>
           <Route
             path="/"
