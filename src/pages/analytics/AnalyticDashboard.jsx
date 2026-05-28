@@ -217,10 +217,10 @@ function AnalyticDashboard({ username }) {
       </div>
 
       {isCurrentMonthEmpty ? (
-        <div className="text-center text-subText mt-10">
-          <img src={dashbaordLogo} className="opacity-20 mx-auto block w-180" />
+        <div className="text-center text-subText mt-8">
+          <img src={dashbaordLogo} className="opacity-20 mx-auto block w-150" />
 
-          <p className="pb-4 text-lg font-medium">
+          <p className="pb-4 text-md font-medium">
             No budget for{" "}
             {selectedMonth.toLocaleString("default", { month: "long" })}
           </p>

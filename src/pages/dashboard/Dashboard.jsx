@@ -32,9 +32,9 @@ function Dashboard({ username }) {
   // useEffect(() => {
   //   localStorage.clear();
   // }, []);
-
+  const currentUser = JSON.parse(localStorage.getItem("user"))?.username;
   useEffect(() => {
-    const savedGoals = localStorage.getItem("goals");
+    const savedGoals = localStorage.getItem(`goals_${currentUser}`);
 
     if (savedGoals) {
       setGoals(JSON.parse(savedGoals));
@@ -42,17 +42,30 @@ function Dashboard({ username }) {
   }, []);
 
   useEffect(() => {
-    const savedBudgets = localStorage.getItem("budgets");
+    const loadBudgets = () => {
+      const savedBudgets = localStorage.getItem(`budgets_${currentUser}`);
+      if (savedBudgets) {
+        setBudgets(JSON.parse(savedBudgets));
+      } else {
+        setBudgets([]);
+      }
+    };
 
-    if (savedBudgets) {
-      setBudgets(JSON.parse(savedBudgets));
-    }
+    loadBudgets();
+
+    window.addEventListener("storage", loadBudgets);
+
+    return () => {
+      window.removeEventListener("storage", loadBudgets);
+    };
   }, []);
 
-  const currentMonth = selectedMonth.toISOString().slice(0, 7);
-  const currentMonthBudgets = budgets.filter(
-    (budget) => budget.month === currentMonth,
-  );
+  const currentMonth = `${selectedMonth.getFullYear()}-${String(
+    selectedMonth.getMonth() + 1,
+  ).padStart(2, "0")}`;
+
+  const currentMonthBudgets = budgets;
+
   const isCurrentMonthEmpty = currentMonthBudgets.length === 0;
 
   const today = new Date();
@@ -153,6 +166,7 @@ function Dashboard({ username }) {
         month: monthKey,
         income,
         expenses,
+        balance: income - expenses,
       });
     }
 
@@ -226,7 +240,7 @@ function Dashboard({ username }) {
           {!isCurrentMonthEmpty && (
             <button
               onClick={() => setOpenBudget(true)}
-              className="p-2 text-white border bg-lilac border-mainText rounded-full shadow-md hover:scale-105 transition"
+              className="p-2 text-white border bg-purpleshade border-mainText rounded-full shadow-md hover:scale-105 transition"
             >
               + Create Budget
             </button>
@@ -236,18 +250,18 @@ function Dashboard({ username }) {
 
       {isCurrentMonthEmpty ? (
         <div className="text-center text-subText mt-8">
-          <img src={dashbaordLogo} className="opacity-20 mx-auto block w-180" />
+          <img src={dashbaordLogo} className="opacity-20 mx-auto block w-150" />
 
-          <p className="pb-4 text-lg font-medium">
+          <p className="pb-4 text-md font-medium">
             No budget for{" "}
             {selectedMonth.toLocaleString("default", { month: "long" })}
           </p>
           {!isPastMonth && (
             <button
-              className="p-3 text-white bg-lilac rounded-full shadow-md hover:scale-105 transition"
+              className="p-3 text-white bg-purpleshade rounded-full shadow-md hover:scale-105 transition"
               onClick={() => setOpenBudget(true)}
             >
-              + Create New Budget
+              + Create Budget
             </button>
           )}
         </div>
@@ -263,7 +277,7 @@ function Dashboard({ username }) {
                   <h5 className="text-md text-white font-bold">
                     Total Balance
                   </h5>
-                  <ArrowOutwardRounded className="text-lilac transition-transform duration-300 hover:scale-125" />
+                  <ArrowOutwardRounded className="text-purpleshade transition-transform duration-300 hover:scale-125" />
                 </div>
                 <p className="text-2xl font-extrabold text-white text-header">
                   R {totalBalance}
@@ -302,7 +316,7 @@ function Dashboard({ username }) {
                   <h5 className="text-md text-white font-bold">
                     Monthly Income
                   </h5>
-                  <ArrowOutwardRounded className="text-lilac transition-transform duration-300 hover:scale-125" />
+                  <ArrowOutwardRounded className="text-purpleshade transition-transform duration-300 hover:scale-125" />
                 </div>
                 <p className="text-2xl font-extrabold text-white">
                   R {totalIncome}
@@ -341,7 +355,7 @@ function Dashboard({ username }) {
                   <h5 className="text-md text-white font-bold">
                     Monthly Expenses
                   </h5>
-                  <ArrowOutwardRounded className="text-lilac transition-transform duration-300 hover:scale-125" />
+                  <ArrowOutwardRounded className="text-purpleshade transition-transform duration-300 hover:scale-125" />
                 </div>
                 <p className="text-2xl font-extrabold text-white">
                   R {totalExpenses}

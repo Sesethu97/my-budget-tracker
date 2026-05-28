@@ -132,17 +132,20 @@ function Goals() {
         {goals.length > 0 && (
           <button
             onClick={handleOpenGoals}
-            className="pt-2 p-2 text-white border bg-purpleshade border-mainText rounded-full shadow-md hover:scale-105 transition"
+            className="p-2 text-white border bg-purpleshade border-mainText rounded-full shadow-md hover:scale-105 transition"
           >
             + Add Goal
           </button>
         )}
       </div>{" "}
       {goals.length === 0 ? (
-        <div className="text-center text-subText">
-          <img src={goalsLogo} className="opacity-20 mx-auto block w-140" />
+        <div className="text-center text-subText mt-8">
+          <img src={goalsLogo} className="opacity-20 mx-auto block w-150" />
 
-          <p className="pb-4"> You don’t have any goals yet</p>
+          <p className="pb-4 text-md font-medium">
+            {" "}
+            You don’t have any goals yet
+          </p>
 
           <button
             type="button"
@@ -153,190 +156,226 @@ function Goals() {
           </button>
         </div>
       ) : (
-        <div className="px-4 pt-2">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {visibleGoals.map((goal) => {
-              const progress = (Number(goal.saved) / Number(goal.target)) * 100;
+        <>
+          <div className="px-4 pt-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {visibleGoals.map((goal) => {
+                const progress =
+                  (Number(goal.saved) / Number(goal.target)) * 100;
 
-              return (
-                <div
-                  key={goal.id}
-                  className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition"
-                >
-                  <div className="flex justify-between items-center w-full">
-                    <h5 className="text-2xl text-white font-bold">
-                      {goal.name}
+                return (
+                  <div
+                    key={goal.id}
+                    className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition"
+                  >
+                    <div className="flex justify-between items-center w-full">
+                      <h5 className="text-2xl text-white font-bold">
+                        {goal.name}
+                      </h5>
+                      <button
+                        onClick={() => handleDelete(goal.id)}
+                        className="text-sm text-sidebarColor font-bold"
+                      >
+                        ×
+                      </button>{" "}
+                    </div>
+
+                    <p className="text-sm font-extrabold text-white text-header">
+                      Due: {goal.deadline}
+                    </p>
+
+                    <p className="text-sm font-extrabold text-white text-header">
+                      R{goal.saved}
+                      <span className="text-sm text-subText">
+                        {" "}
+                        / R{goal.target}
+                      </span>
+                    </p>
+
+                    <div className="w-full bg-subText rounded-full h-2 mt-3">
+                      <div
+                        className="bg-magenta h-2 rounded-full"
+                        style={{ width: `${progress}%` }}
+                      />
+                    </div>
+
+                    <p className="text-xs text-subText mt-2">
+                      {progress.toFixed(0)}% complete
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="flex justify-center gap-4 mt-4">
+              <p
+                onClick={() =>
+                  setCurrentIndex((prev) => Math.max(prev - itemsPerPage, 0))
+                }
+                disabled={currentIndex === 0}
+                className="px-4 py-2  text-white  disabled:opacity-50"
+              >
+                <ArrowBackIosNewRounded />
+              </p>
+
+              <p
+                onClick={() =>
+                  setCurrentIndex((prev) =>
+                    prev + itemsPerPage >= goals.length
+                      ? prev
+                      : prev + itemsPerPage,
+                  )
+                }
+                disabled={currentIndex + itemsPerPage >= goals.length}
+                className="px-4 py-2  text-white  disabled:opacity-50"
+              >
+                <ArrowForwardIosRounded />
+              </p>
+            </div>
+          </div>
+          <div className="bg-neutral-primary-soft w-full mt-2 p-6 ">
+            <div className="grid grid-cols-3 gap-4">
+              <div className="col-span-2 bg-sidebarColor p-6 border border-default rounded-md shadow-xs">
+                <div className="flex justify-between items-center mb-4">
+                  <div>
+                    <h5 className="text-md text-white font-bold">
+                      Goals Summary
                     </h5>
-                    <button
-                      onClick={() => handleDelete(goal.id)}
-                      className="text-sm text-sidebarColor font-bold"
-                    >
-                      ×
-                    </button>{" "}
                   </div>
-
-                  <p className="text-sm font-extrabold text-white text-header">
-                    Due: {goal.deadline}
-                  </p>
-
-                  <p className="text-sm font-extrabold text-white text-header">
-                    R{goal.saved}
-                    <span className="text-sm text-subText">
-                      {" "}
-                      / R{goal.target}
-                    </span>
-                  </p>
-
-                  <div className="w-full bg-subText rounded-full h-2 mt-3">
-                    <div
-                      className="bg-magenta h-2 rounded-full"
-                      style={{ width: `${progress}%` }}
-                    />
-                  </div>
-
-                  <p className="text-xs text-subText mt-2">
-                    {progress.toFixed(0)}% complete
-                  </p>
                 </div>
-              );
-            })}
-          </div>
-          <div className="flex justify-center gap-4 mt-4">
-            <p
-              onClick={() =>
-                setCurrentIndex((prev) => Math.max(prev - itemsPerPage, 0))
-              }
-              disabled={currentIndex === 0}
-              className="px-4 py-2  text-white  disabled:opacity-50"
-            >
-              <ArrowBackIosNewRounded />
-            </p>
+                <div className="h-54 w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={chartData}>
+                      <defs>
+                        <linearGradient
+                          id="savedColor"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#b65fcf"
+                            stopOpacity={0.4}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#b65fcf"
+                            stopOpacity={0}
+                          />
+                        </linearGradient>
 
-            <p
-              onClick={() =>
-                setCurrentIndex((prev) =>
-                  prev + itemsPerPage >= goals.length
-                    ? prev
-                    : prev + itemsPerPage,
-                )
-              }
-              disabled={currentIndex + itemsPerPage >= goals.length}
-              className="px-4 py-2  text-white  disabled:opacity-50"
-            >
-              <ArrowForwardIosRounded />
-            </p>
+                        <linearGradient
+                          id="targetColor"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#34d399"
+                            stopOpacity={0.4}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#34d399"
+                            stopOpacity={0}
+                          />
+                        </linearGradient>
+                      </defs>
+
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                      <XAxis
+                        dataKey="month"
+                        tickFormatter={(m) =>
+                          new Date(m + "-01").toLocaleString("default", {
+                            month: "short",
+                          })
+                        }
+                      />
+
+                      <YAxis
+                        tick={{ fill: "#aaa", fontSize: 12 }}
+                        axisLine={false}
+                        tickLine={false}
+                        tickFormatter={(value) => `R ${value.toLocaleString()}`}
+                      />
+
+                      <Tooltip
+                        formatter={(value) => `R ${value}`}
+                        contentStyle={{
+                          backgroundColor: "#1f1f1f",
+                          border: "none",
+                          borderRadius: "8px",
+                        }}
+                      />
+                      <Legend
+                        wrapperStyle={{ color: "#fff", fontSize: "12px" }}
+                      />
+
+                      <Area
+                        type="monotone"
+                        dataKey="saved"
+                        name="Amount Saved"
+                        stroke="#b65fcf"
+                        fill="url(#savedColor)"
+                        strokeWidth={2}
+                      />
+
+                      <Area
+                        type="monotone"
+                        dataKey="target"
+                        name="Target Goal"
+                        stroke="#34d399"
+                        fill="url(#targetColor)"
+                        strokeWidth={2}
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+              <div className="flex-1 min-h-[300px] bg-sidebarColor p-6 border border-default rounded-md shadow-xs">
+                <h5 className="text-md text-white font-bold mb-4">
+                  Goal Status
+                </h5>
+
+                <div className="h-[calc(100%-40px)] flex items-center">
+                  <div className="grid grid-cols-2 gap-6 w-full">
+                    <div className="flex justify-between text-subText">
+                      <span>Not started</span>
+                      <span className="flex items-center justify-center h-12 w-12 rounded-full border-2 border-amber-400 text-amber-400 font-semibold">
+                        {goalStats.not_started}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between text-subText">
+                      <span>In progress</span>
+                      <span className="flex items-center justify-center h-12 w-12 rounded-full border-2 border-orange-400 text-orange-400 font-semibold">
+                        {goalStats.in_progress}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between text-subText">
+                      <span>Completed</span>
+                      <span className="flex items-center justify-center h-12 w-12 rounded-full border-2 border-green-400 text-green-400 font-semibold">
+                        {goalStats.completed}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between text-subText">
+                      <span>Cancelled</span>
+                      <span className="flex items-center justify-center h-12 w-12 rounded-full border-2 border-red-400 text-red-400 font-semibold">
+                        {goalStats.cancelled}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </>
       )}
-      <div className="bg-neutral-primary-soft w-full mt-2 p-6 ">
-        <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-2 bg-sidebarColor p-6 border border-default rounded-md shadow-xs">
-            <div className="flex justify-between items-center mb-4">
-              <div>
-                <h5 className="text-md text-white font-bold">Goals Summary</h5>
-              </div>
-            </div>
-            <div className="h-54 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData}>
-                  <defs>
-                    <linearGradient id="savedColor" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#b65fcf" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#b65fcf" stopOpacity={0} />
-                    </linearGradient>
-
-                    <linearGradient
-                      id="targetColor"
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="1"
-                    >
-                      <stop offset="5%" stopColor="#34d399" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#34d399" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis
-                    dataKey="month"
-                    tickFormatter={(m) =>
-                      new Date(m + "-01").toLocaleString("default", {
-                        month: "short",
-                      })
-                    }
-                  />
-
-                  <YAxis
-                    tick={{ fill: "#aaa", fontSize: 12 }}
-                    axisLine={false}
-                    tickLine={false}
-                    tickFormatter={(value) => `R ${value.toLocaleString()}`}
-                  />
-
-                  <Tooltip
-                    formatter={(value) => `R ${value}`}
-                    contentStyle={{
-                      backgroundColor: "#1f1f1f",
-                      border: "none",
-                      borderRadius: "8px",
-                    }}
-                  />
-                  <Legend wrapperStyle={{ color: "#fff", fontSize: "12px" }} />
-
-                  <Area
-                    type="monotone"
-                    dataKey="saved"
-                    name="Amount Saved"
-                    stroke="#b65fcf"
-                    fill="url(#savedColor)"
-                    strokeWidth={2}
-                  />
-
-                  <Area
-                    type="monotone"
-                    dataKey="target"
-                    name="Target Goal"
-                    stroke="#34d399"
-                    fill="url(#targetColor)"
-                    strokeWidth={2}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-          <div className="flex-1 bg-sidebarColor p-6 border border-default rounded-md shadow-xs">
-            <h5 className="text-md text-white font-bold mb-4">Goal Status</h5>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex justify-between text-subText">
-                <span>Not started</span>
-                <span className="flex items-center justify-center h-12 w-12 rounded-full border-2 border-amber-400 text-amber-400 font-semibold">
-                  {goalStats.not_started}
-                </span>
-              </div>
-              <div className="flex justify-between text-subText">
-                <span>In progress</span>
-                <span className="flex items-center justify-center h-12 w-12 rounded-full border-2 border-orange-400 text-orange-400 font-semibold">
-                  {goalStats.in_progress}
-                </span>
-              </div>{" "}
-              <div className="flex justify-between text-subText">
-                <span>Completed</span>
-                <span className="flex items-center justify-center h-12 w-12 rounded-full border-2 border-green-400 text-green-400 font-semibold">
-                  {goalStats.completed}
-                </span>
-              </div>
-              <div className="flex justify-between text-subText">
-                <span>Cancelled</span>
-                <span className="flex items-center justify-center h-12 w-12 rounded-full border-2 border-red-400 text-red-400 font-semibold">
-                  {goalStats.cancelled}
-                </span>
-              </div>
-            </div>
-          </div>{" "}
-        </div>
-      </div>
       {openGoals && (
         <div className="fixed inset-0 flex items-center justify-center bg-backgroundColor/5 backdrop-blur-sm z-50">
           <GoalsForm

@@ -6,6 +6,7 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
   const [month, setMonth] = useState("");
   const [expenses, setExpenses] = useState([{ category: "", amount: "" }]);
   const [showMonthExists, setShowMonthExists] = useState(false);
+  const currentUser = JSON.parse(localStorage.getItem("user"))?.username;
 
   const isValidForm =
     budgetName.trim() !== "" &&
@@ -57,7 +58,8 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const existingBudgets = JSON.parse(localStorage.getItem("budgets")) || [];
+    const existingBudgets =
+      JSON.parse(localStorage.getItem(`budgets_${currentUser}`)) || [];
 
     if (!editingBudget) {
       const monthExists = existingBudgets.some((b) => b.month === month);
@@ -65,7 +67,7 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
       if (monthExists) {
         setShowMonthExists(true);
         setTimeout(() => {
-          navigate("/Budget");
+          navigate("/budget");
         }, 1000);
         return;
       }
@@ -94,7 +96,10 @@ function BudgetForm({ closeModal, setBudgets, editingBudget }) {
       updatedBudgets = [...existingBudgets, newBudget];
     }
 
-    localStorage.setItem("budgets", JSON.stringify(updatedBudgets));
+    localStorage.setItem(
+      `budgets_${currentUser}`,
+      JSON.stringify(updatedBudgets),
+    );
     setBudgets(updatedBudgets);
     closeModal();
   };

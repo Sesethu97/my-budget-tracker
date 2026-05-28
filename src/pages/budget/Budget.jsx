@@ -11,14 +11,12 @@ function Budget() {
   const [selectedBudget, setSelectedBudget] = useState(null);
   const [openAllocate, setOpenAllocate] = useState(false);
   const [goals, setGoals] = useState([]);
-  const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [openMenuId, setOpenMenuId] = useState(null);
 
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+  const currentUser = JSON.parse(localStorage.getItem("user"))?.username;
 
-  const filteredBudgets = budgets.filter(
-    (b) => b.month === selectedMonth.toISOString().slice(0, 7),
-  );
+  const filteredBudgets = budgets;
 
   useEffect(() => {
     const savedGoals = localStorage.getItem("goals");
@@ -26,8 +24,22 @@ function Budget() {
   }, []);
 
   useEffect(() => {
-    const savedBudgets = localStorage.getItem("budgets");
-    if (savedBudgets) setBudgets(JSON.parse(savedBudgets));
+    const loadBudgets = () => {
+      const savedBudgets = localStorage.getItem(`budgets_${currentUser}`);
+      if (savedBudgets) {
+        setBudgets(JSON.parse(savedBudgets));
+      } else {
+        setBudgets([]);
+      }
+    };
+
+    loadBudgets();
+
+    window.addEventListener("storage", loadBudgets);
+
+    return () => {
+      window.removeEventListener("storage", loadBudgets);
+    };
   }, []);
 
   useEffect(() => {
@@ -64,7 +76,7 @@ function Budget() {
   const deleteSelectedBudgets = () => {
     setBudgets((prev) => {
       const remaining = prev.filter((b) => !selectedBudgets.includes(b.id));
-      localStorage.setItem("budgets", JSON.stringify(remaining));
+      localStorage.setItem(`budgets_${currentUser}`, JSON.stringify(remaining));
       return remaining;
     });
     setSelectedBudgets([]);
@@ -83,7 +95,7 @@ function Budget() {
       <div className="flex justify-end mb-3">
         <button
           onClick={() => setOpenBudget(true)}
-          className="bg-purpleshade px-4 py-2 rounded-full shadow-md hover:scale-105 transition"
+          className="p-2 text-white border bg-purpleshade border-mainText rounded-full shadow-md hover:scale-105 transition"
         >
           + Create Budget
         </button>
@@ -101,12 +113,14 @@ function Budget() {
       )}
 
       {filteredBudgets.length === 0 ? (
-        <div className="text-center text-subText mt-20">
-          <img src={budgetLogo} className="opacity-20 mx-auto block w-64" />
-          <p className="mt-4">You haven't created any budgets yet</p>
+        <div className="text-center text-subText mt-8">
+          <img src={budgetLogo} className="opacity-20 mx-auto block w-150" />
+          <p className="pb-4 text-md font-medium">
+            You haven't created any budgets yet
+          </p>
 
           <button
-            className="mt-4 bg-purpleshade px-4 py-2 rounded-full"
+            className="mt-4 text-white bg-purpleshade px-4 py-2 rounded-full"
             onClick={() => setOpenBudget(true)}
           >
             + Create Budget
@@ -134,7 +148,7 @@ function Budget() {
             </thead>
 
             <tbody className="divide-y divide-default text-subText">
-              {budgets.map((budget, index) => (
+              {filteredBudgets.map((budget, index) => (
                 <tr
                   key={budget.id}
                   className={`transition ${
