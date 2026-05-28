@@ -28,8 +28,15 @@ function NavItem({ to, icon, label }) {
   );
 }
 
-function Sidenav({ openPopup, userName, profilePic }) {
-  const initial = userName ? userName.substring(0, 2).toUpperCase() : "";
+function Sidenav({ openPopup, username, profilePic }) {
+  const initials = username
+    ? username
+        .split(" ")
+        .map((name) => name[0])
+        .join("")
+        .substring(0, 2)
+        .toUpperCase()
+    : "U";
 
   return (
     <aside className="w-52 h-screen sticky top-0 bg-sidebarColor flex flex-col justify-between">
@@ -82,10 +89,13 @@ function Sidenav({ openPopup, userName, profilePic }) {
             />
           ) : (
             <div className="w-12 h-12 flex items-center justify-center rounded-full bg-linear-to-r from-purple-950 to-lilac text-white font-semibold">
-              {initial || "U"}
+              {initials}
             </div>
           )}
-          <span className="text-white text-md">{userName}</span>
+
+          <span className="text-white text-md truncate">
+            {username || "User"}
+          </span>
         </button>
 
         <NavItem to="/" icon={<LogoutIcon />} label="Log Out" />
