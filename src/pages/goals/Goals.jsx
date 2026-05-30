@@ -22,9 +22,18 @@ function Goals() {
   const [goals, setGoals] = useState([]);
   const [openGoals, setOpenGoals] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const [editGoals, setEditGoals] = useState(null);
 
   const itemsPerPage = 4;
   const visibleGoals = goals.slice(currentIndex, currentIndex + itemsPerPage);
+
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+
+  const handleGoalsEdit = (goal) => {
+    setEditGoals(goal);
+    setOpenGoals(true);
+  };
 
   useEffect(() => {
     const savedGoals = localStorage.getItem("goals");
@@ -32,6 +41,14 @@ function Goals() {
       setGoals(JSON.parse(savedGoals));
     }
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = () => setOpenMenuId(null);
+    if (openMenuId) {
+      document.addEventListener("click", handleClickOutside);
+    }
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [openMenuId]);
 
   const handleOpenGoals = (e) => {
     e.preventDefault();
@@ -117,7 +134,7 @@ function Goals() {
           </p>
         </div>
       </div>
-      <div className="flex items-center justify-between px-4 ">
+      <div className="flex items-center justify-between px-4 pb-4">
         <div className="flex items-center gap-0.5">
           <span className="p-2 bg-sidebarColor text-white border border-subText rounded-full shadow-md hover:scale-105 transition">
             📅
@@ -166,7 +183,8 @@ function Goals() {
                 return (
                   <div
                     key={goal.id}
-                    className="flex flex-col items-start gap-4 w-full p-5  hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition"
+                    onClick={() => handleGoalsEdit(goal)}
+                    className="flex flex-col items-start gap-4 w-full p-5 hover:shadow-xl border bg-sidebarColor border-mainText rounded-xl shadow-md transition"
                   >
                     <div className="flex justify-between items-center w-full">
                       <h5 className="text-2xl text-white font-bold">
@@ -180,7 +198,7 @@ function Goals() {
                       </button>{" "}
                     </div>
 
-                    <p className="text-sm font-extrabold text-white text-header">
+                    <p className="text-sm font-bold text-white text-header">
                       Due: {goal.deadline}
                     </p>
 
@@ -335,7 +353,7 @@ function Goals() {
                   </ResponsiveContainer>
                 </div>
               </div>
-              <div className="flex-1 min-h-[300px] bg-sidebarColor p-6 border border-default rounded-md shadow-xs">
+              <div className="flex-1 min-h-75 bg-sidebarColor p-6 border border-default rounded-md shadow-xs">
                 <h5 className="text-md text-white font-bold mb-4">
                   Goal Status
                 </h5>
@@ -379,8 +397,12 @@ function Goals() {
       {openGoals && (
         <div className="fixed inset-0 flex items-center justify-center bg-backgroundColor/5 backdrop-blur-sm z-50">
           <GoalsForm
-            closeModal={() => setOpenGoals(false)}
+            closeModal={() => {
+              setOpenGoals(false);
+              setEditGoals(null);
+            }}
             setGoals={setGoals}
+            editingGoal={editGoals}
           />
         </div>
       )}

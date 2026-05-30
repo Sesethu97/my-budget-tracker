@@ -199,7 +199,7 @@ function Dashboard({ username }) {
   const pieData = getCategoryData();
 
   const COLORS = [
-    "#301934",
+    "#D8BFD8",
     "#7F00FF",
     "#800080",
     "#E6E6FA",
@@ -500,7 +500,7 @@ function Dashboard({ username }) {
                 </div>
               </div>
               <div className="flex-1 bg-sidebarColor p-2 border border-default rounded-md shadow-xs ">
-                <h5 className="text-md text-white font-bold">
+                <h5 className="text-md text-white font-bold pt-4">
                   Monthly Expenses Breakdown
                 </h5>
 

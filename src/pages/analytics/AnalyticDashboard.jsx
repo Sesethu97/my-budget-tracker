@@ -31,9 +31,10 @@ function AnalyticDashboard({ username }) {
   // useEffect(() => {
   //   localStorage.clear();
   // }, []);
+  const currentUser = JSON.parse(localStorage.getItem("user"))?.username;
 
   useEffect(() => {
-    const savedGoals = localStorage.getItem("goals");
+    const savedGoals = localStorage.getItem(`goals_${currentUser}`);
 
     if (savedGoals) {
       setGoals(JSON.parse(savedGoals));
@@ -41,17 +42,15 @@ function AnalyticDashboard({ username }) {
   }, []);
 
   useEffect(() => {
-    const savedBudgets = localStorage.getItem("budgets");
+    const savedBudgets = localStorage.getItem(`budgets_${currentUser}`);
 
     if (savedBudgets) {
       setBudgets(JSON.parse(savedBudgets));
     }
   }, []);
 
-  const currentMonth = selectedMonth.toISOString().slice(0, 7);
-  const currentMonthBudgets = budgets.filter(
-    (budget) => budget.month === currentMonth,
-  );
+  const currentMonthBudgets = budgets;
+
   const isCurrentMonthEmpty = currentMonthBudgets.length === 0;
 
   const totalIncome = currentMonthBudgets.reduce(
