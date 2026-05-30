@@ -1,16 +1,146 @@
-# React + Vite
+# 💰 Personal Budget Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern personal finance management application built with React and Vite that helps users track income, expenses, budgets, and savings goals through an intuitive dashboard and analytics experience.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 📊 Dashboard
 
-## React Compiler
+- View total balance, income, expenses, and savings rate
+- Monthly budget overview
+- Financial summary cards
+- Interactive charts and visualizations
+- Savings goal progress tracking
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 💵 Budget Management
 
-## Expanding the ESLint configuration
+- Create monthly budgets
+- Add and manage expense categories
+- Track income and spending
+- Prevent duplicate budgets for the same month
+- Edit and update existing budgets
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 🎯 Savings Goals
+
+- Create savings goals
+- Set target amounts and deadlines
+- Track progress toward goals
+- Visual progress indicators
+- Goal completion notifications
+
+### 📈 Analytics
+
+- Income and expense trends over time
+- Monthly expense breakdown
+- Category-based spending analysis
+- Financial performance comparisons
+- Historical financial insights
+
+### 👤 User Management
+
+- User registration and login
+- User-specific data storage
+- Personalized dashboards
+
+---
+
+## Built With
+
+- React
+- Vite
+- JavaScript (ES6+)
+- Tailwind CSS
+- Recharts
+- React Router
+- Material UI Icons
+- Local Storage
+
+---
+
+## Installation
+
+1. Clone the repository
+
+```bash
+git clone <repository-url>
+```
+
+2. Navigate to the project folder
+
+```bash
+cd my-budget-tracker
+```
+
+3. Install dependencies
+
+```bash
+npm install
+```
+
+4. Start the development server
+
+```bash
+npm run dev
+```
+
+5. Open your browser and visit
+
+```bash
+http://localhost:5173
+```
+
+---
+
+## Project Structure
+
+```text
+src/
+├── assets/
+├── components/
+│   ├── budgetform/
+│   ├── allocateSavings/
+│   ├── monthPicker/
+│   └── ...
+├── pages/
+│   ├── dashboard/
+│   ├── analytics/
+│   ├── budget/
+│   └── goals/
+├── App.jsx
+└── main.jsx
+```
+
+---
+
+## Data Storage
+
+This application currently uses Local Storage to persist:
+
+- User accounts
+- Budgets
+- Expense categories
+- Savings goals
+- User preferences
+
+Data is stored per user to ensure each user only sees their own financial information.
+
+---
+
+## Future Improvements
+
+- Backend integration
+- Cloud data storage
+- Export reports to PDF
+- Budget notifications
+- Recurring transactions
+- Dark/Light theme support
+- Financial forecasting
+- Multi-currency support
+
+---
+
+## Author
+
+**Sesethu Luzipo**
+
+Built as a personal finance management project to help users take control of their spending, budgeting, and savings goals.
